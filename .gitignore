@@ -1,11 +1,12 @@
-.env.*.php
-.env.php
+.env.*
 .env
 
 /vendor/
 /var/cache/*
 /var/logs/*
 /var/sessions/*
-!var/cache/.gitkeep
-!var/logs/.gitkeep
-!var/sessions/.gitkeep
+!/var/cache/.gitkeep
+!/var/logs/.gitkeep
+!/var/sessions/.gitkeep
+/public/uploads/*
+!/public/uploads/.gitkeep
