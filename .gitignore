@@ -2,6 +2,7 @@
 .env
 
 /vendor/
+/debugbar/
 /var/cache/*
 /var/logs/*
 /var/sessions/*
