@@ -4,7 +4,15 @@ require 'define.php';
 require BASE_PATH.'vendor'.DS.'autoload.php';
 require 'functions.php';
 
-require 'config.php';
+use AppLib\Config\ConfigLoader;
+use \Psr\Http\Message\ResponseInterface as Response;
+use \Psr\Http\Message\ServerRequestInterface as Request;
+
+
+// require 'config.php';
+$config = new ConfigLoader([CONFIG_PATH]);
+$config->load();
+p($config->get());
 
 $dotenv = new Dotenv\Dotenv(BASE_PATH);
 $dotenv->load();
@@ -13,8 +21,6 @@ $dotenv->load();
     'form' => true,
 ));*/
 
-use \Psr\Http\Message\ServerRequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
 
 $app = new \Slim\App;
 

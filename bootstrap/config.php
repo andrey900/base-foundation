@@ -93,8 +93,8 @@ use Symfony\Component\Config\Loader\FileLoader;
 use Symfony\Component\Config\Loader\GlobFileLoader;
 use Symfony\Component\Config\FileLocator;
 
-$r = new GlobFileLoader();
-p($r);die;
+// $r = new GlobFileLoader(new FileLocator(CONFIG_PATH));
+// p($r->load('*.{php}'));die;
 // $yaml = new YamlConfigLoader('/path/where/config/will/be');
 // $config = new Config();
 // $config->setConfigResolver($yaml);
@@ -114,16 +114,40 @@ p($configValues['config']);*/
 
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\Loader\DelegatingLoader;
-use AppLib\ConfigLoaders\YamlLoader;
-use AppLib\ConfigLoaders\PhpLoader;
+// use AppLib\Config\DelegatingLoader;
+use AppLib\Config\Loaders\YamlLoader;
+use AppLib\Config\Loaders\PhpLoader;
+use AppLib\Config\ConfigLoader;
+use Symfony\Component\Config\Resource\GlobResource;
+use Symfony\Component\Config\Resource\FileResource;
 
-$locator = new FileLocator([BASE_PATH.'bootstrap']);
+$locator = new FileLocator([CONFIG_PATH]);
 $loaderResolver = new LoaderResolver(array(new YamlLoader($locator), new PhpLoader($locator)));
 $delegatingLoader = new DelegatingLoader($loaderResolver);
 
+$config = new ConfigLoader([CONFIG_PATH]);
+$config->load();
+p($config->get());
+/*foreach ($locator->getPaths() as $files) {
+    p($files);
+}
+$resource = new GlobResource($prefix, $pattern, $recursive);
+
+foreach ($resource as $path => $info) {
+    yield $path => $info;
+}*/
+// die;
+// p($loaderResolver->resolve('*.php')->import("*.{php}"));
+// p($loaderResolver->resolve('*.yml')->import("*.{yml}"));
+// p($loaderResolver->resolve('*.yml')->import("*.{xml}"));
+// p($loaderResolver->resolve('*.xml'));
+// p($loaderResolver->resolve('*.ini')->import("*.{yml}"));
+// $t = new PhpLoader($locator = new FileLocator([CONFIG_PATH]));
+// p($t->import('*.{php}', 'php'));
+
 // YamlUserLoader is used to load this resource because it supports
 // files with the '.yml' extension
-$t = $delegatingLoader->import('*.{yml}');
-p($t);
-$t = $delegatingLoader->load('myconfig.php');
-p($t);
+// $t = $delegatingLoader->import('*.{php}');
+// p($t);
+// $t = $delegatingLoader->load('myconfig.php');
+// p($t);
