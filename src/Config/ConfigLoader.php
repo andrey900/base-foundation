@@ -150,4 +150,16 @@ class ConfigLoader
 			}
 		}
 	}
+
+	public function loadProviders()
+	{
+		global $container;
+		$files = new \FilesystemIterator(APP_PATH.'Providers'.DS);
+		foreach($files as $file)
+		{
+			if( $file->getExtension() == 'php' ){
+				include $file->getPathname();
+			}
+		}
+	}
 }
