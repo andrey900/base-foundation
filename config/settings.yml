@@ -1,0 +1,5 @@
+displayErrorDetails: '%env(DISPLAY_ERROR_DETAILS)%'
+addContentLengthHeader: false
+determineRouteBeforeAppMiddleware: true
+outputBuffering: false
+routerCacheFile: false

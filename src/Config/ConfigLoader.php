@@ -2,6 +2,7 @@
 
 namespace AppLib\Config;
 
+use Dotenv\Dotenv;
 use App\Ext\Configuration;
 use Illuminate\Support\Collection;
 use AppLib\Config\Loaders\PhpLoader;
@@ -21,8 +22,9 @@ class ConfigLoader
 	protected $configPaths;
 	protected $locator;
 	protected $loaderResolver;
-	protected $extensions = ['php', 'yml'];
+	protected $extensions = ['php', 'yml', 'yaml'];
 	private $config = [];
+	private $compiledConfig = [];
 
 	private $loaded = false;
 	private $proccessConfiguration = false;
@@ -38,6 +40,12 @@ class ConfigLoader
 			new YamlLoader($this->locator), 
 			new PhpLoader($this->locator)
 		]);
+
+		try{
+			$dotenv = new Dotenv(BASE_PATH);
+			$dotenv->load();
+		} catch(\Dotenv\Exception\InvalidPathException $e){
+		}
 	}
 
 	public function load()
@@ -52,7 +60,8 @@ class ConfigLoader
 			foreach($files as $file)
 			{
 				if( in_array($file->getExtension(), $this->extensions) ){
-					$this->config[substr($file->getFilename(), 0, -4)] = $delegatingLoader->load($file->getFilename());
+					$filename = substr($file->getFilename(), 0, strpos($file->getFilename(), '.'));
+					$this->config[$filename] = $delegatingLoader->load($file->getFilename());
 					$this->loadedResources[] = new FileResource($file->getPathname());
 				}
 			}
@@ -69,43 +78,62 @@ class ConfigLoader
 			return $this->load();
 
 		if( $this->proccessConfiguration )
-			return $this->config;
+			return $this->compiledConfig;
 
 		$processor = new Processor();
 
-		$configuration = new Configuration();
-	    $processedConfiguration = $processor->processConfiguration(
-	        $configuration,
-	        $this->config['data']
-	    );
-		 
-	    // configuration validated
-	    p($processedConfiguration);
+		foreach ($this->config as $module => $settings) {
+			$clName = '\\App\\Ext\\Configuration\\'.$module;
 
-	    $this->proccessConfiguration = true;
-		
-		return $this->config;
-	}
+			$envSettings = $settings;
 
-	protected function cacheConfig()
-	{
-		$cachePath = CACHE_PATH.DS.'config'.DS.'appconfig.php';
+			if( !class_exists($clName) ){
+				$this->compiledConfig[$module] = $envSettings;
+				continue;
+			}
 
-		// Режим отладки определяет, будут ли проверяться на изменения ресурсы, из которых строился кеш
-		$cacheFile = new ConfigCache($cachePath, true);
-
-		if (!$cacheFile->isFresh()) {
-		    //Здесь строим кэш из загруженных данных
-		    //Пишем кеш. Рядом с файлом кеша запишется файл с метаданными со списком исходных ресурсов
-		    $cacheFile->write("<?php \n\n return ".var_export($this->config, true), $this->loadedResources);
+			$configChecker = new Configuration();
+		    $this->compiledConfig[$module] = $processor->processConfiguration(
+		        new $clName,
+		        [$module => $envSettings]
+		    );
 		}
 
-		// Подключаем файл кеша
-		// require $cachePath;
+	    $this->proccessConfiguration = true;
+
+	    $this->compiledConfig = $this->afterCompiled($this->compiledConfig);
+
+		return $this->compiledConfig;
+	}
+
+	public static function cacheLoad(ConfigLoader $configLoader, $debug = false)
+	{
+		$cachePath = CACHE_PATH.'config'.DS.'appconfig.php';
+
+		// Режим отладки определяет, будут ли проверяться на изменения ресурсы, из которых строился кеш
+		$cacheFile = new ConfigCache($cachePath, $debug);
+
+		if (!$cacheFile->isFresh() || clearCache()) {
+		    $cacheFile->write("<?php \n\n return ".var_export($configLoader->load(), true).';'.PHP_EOL, $configLoader->loadedResources);
+		}
+
+		return require $cachePath;
 	}
 
 	public function isLoad()
 	{
 		return (bool)$this->loaded;
+	}
+
+	protected function afterCompiled(array $config)
+	{
+		$settings = $config['settings'];
+	    unset($config['settings']);
+
+	    if( $settings['routerCacheFile'] ){
+	    	$settings['routerCacheFile'] = CACHE_PATH.$settings['routerCacheFile'];
+	    }
+
+	    return ['settings' => $settings + $config];
 	}
 }

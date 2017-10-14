@@ -14,3 +14,6 @@ define("PUBLIC_DIR", "public");
 define("PUBLIC_PATH", BASE_PATH.PUBLIC_DIR.DS);
 define("CONFIG_DIR", "config");
 define("CONFIG_PATH", BASE_PATH.CONFIG_DIR.DS);
+
+define('CLEAR_CACHE_PARAM', 'clear_cache');
+define('CLEAR_CACHE_VALUE', '1');

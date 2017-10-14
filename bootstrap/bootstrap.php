@@ -9,26 +9,18 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 
 
-// require 'config.php';
-$config = new ConfigLoader([CONFIG_PATH]);
-$config->load();
-p($config->get());
-
-$dotenv = new Dotenv\Dotenv(BASE_PATH);
-$dotenv->load();
-
-/*$container->loadFromExtension('framework', array(
-    'form' => true,
-));*/
 
 
-$app = new \Slim\App;
 
-$provider = new Kitchenu\Debugbar\ServiceProvider();
-$provider->register($app);
+$configLoader = new ConfigLoader([CONFIG_PATH]);
+$settings = $configLoader->cacheLoad($configLoader, true);
 
+$app = new \Slim\App($settings);
 $container = $app->getContainer();
 
+if( $container->get('settings')['app']['useDebugBar'] ){
+	$provider = new Kitchenu\Debugbar\ServiceProvider();
+	$provider->register($app);
 /*$container['pdo'] = function () {
     return new PDO('sqlite::memory:');
 };
@@ -39,6 +31,12 @@ $container->debugbar->addCollector($collector);
 $collector = new DebugBar\Bridge\Twig\TwigCollector($container->twig);
 $container->debugbar->addCollector($collector);
 */
+}
+
+$app->get('/', function (Request $request, Response $response) use ($settings) {
+    $response->getBody()->write("<h1>Home page</h1>");
+    return $response;
+});
 
 $app->get('/hello/{name}', function (Request $request, Response $response) {
     $name = $request->getAttribute('name');
