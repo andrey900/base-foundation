@@ -5,8 +5,6 @@ require BASE_PATH.'vendor'.DS.'autoload.php';
 require 'functions.php';
 
 use AppLib\Config\ConfigLoader;
-use \Psr\Http\Message\ResponseInterface as Response;
-use \Psr\Http\Message\ServerRequestInterface as Request;
 
 
 
@@ -33,10 +31,7 @@ $container->debugbar->addCollector($collector);
 */
 }
 
-$app->get('/', function (Request $request, Response $response) use ($settings) {
-    $response->getBody()->write("<h1>Home page</h1>");
-    return $response;
-});
+$configLoader->loadRoutes();
 
 $app->get('/hello/{name}', function (Request $request, Response $response) {
     $name = $request->getAttribute('name');

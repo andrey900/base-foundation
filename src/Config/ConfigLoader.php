@@ -136,4 +136,18 @@ class ConfigLoader
 
 	    return ['settings' => $settings + $config];
 	}
+
+	public function loadRoutes()
+	{
+		foreach ($this->configPaths as $paths) {
+			global $app;
+			$files = new \FilesystemIterator($paths.'routes'.DS);
+			foreach($files as $file)
+			{
+				if( $file->getExtension() == 'php' ){
+					include $file->getPathname();
+				}
+			}
+		}
+	}
 }
