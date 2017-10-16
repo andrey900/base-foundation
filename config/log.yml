@@ -1,1 +1,0 @@
-test: '%env(DATABASE_HOST)%'

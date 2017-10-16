@@ -1,1 +1,10 @@
 useDebugBar: '%env(USE_DEBUGBAR)%'
+enableLogging: '%env(ENABLE_LOGGING)%'
+logFileName: 'app.log'
+logOnlyInDebugBar: '%env(USE_DEBUGBAR)%'
+
+templateName: 'main'
+twigDebug: '%env(DEBUG_MODE)%'
+twigUseCache: false
+
+debugMode: '%env(DEBUG_MODE)%'
