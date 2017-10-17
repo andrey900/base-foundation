@@ -4,7 +4,7 @@ $container['view'] = function ($container) {
 	$templatesPath = TEMPLATES_PATH.$container->get('settings')['app']['templateName'];
 	
 	$config = [
-        'cache' => (['twigUseCache']) ? CACHE_PATH.'twig'.DS : false,
+        'cache' => ($container->get('settings')['app']['twigUseCache']) ? CACHE_PATH.'twig'.DS : false,
         'twigDebug' => $container->get('settings')['app']['twigDebug'],
         'file_extension' => 'html'
     ];

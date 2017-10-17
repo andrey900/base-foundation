@@ -1,18 +1,22 @@
 {
     "require": {
+        "php" : "^5.5 || ^7.0",
         "slim/slim": "^3.0",
-        "tightenco/collect": "^5.5",
         "vlucas/phpdotenv": "^2.4",
         "slim/twig-view": "^2.3",
         "symfony/event-dispatcher": "^3.3",
         "monolog/monolog": "^1.23",
         "robmorgan/phinx": "^0.9.1",
-        "kitchenu/slim-debugbar": "^1.0"
+        "kitchenu/slim-debugbar": "^1.0",
+        "illuminate/database": "^5.5"
     },
     "autoload": {
         "psr-4": {
             "App\\": "app/",
             "AppLib\\": "src/"
-        }
+        },
+        "files": [
+            "src/Twig_TemplateInterface.php"
+        ]
     }
 }
