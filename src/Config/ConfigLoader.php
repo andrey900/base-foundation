@@ -155,11 +155,19 @@ class ConfigLoader
 	{
 		global $container;
 		$files = new \FilesystemIterator(APP_PATH.'Providers'.DS);
+		$filesCollection = new Collection;
 		foreach($files as $file)
 		{
 			if( $file->getExtension() == 'php' ){
-				include $file->getPathname();
+				$filesCollection->push($file);
 			}
+		}
+		$filesCollection = $filesCollection->sortBy(function ($file) {
+			return $file->getFilename();
+		});
+		
+		foreach($filesCollection as $file){
+			include $file->getPathname();
 		}
 	}
 }

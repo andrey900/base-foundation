@@ -19,10 +19,8 @@ class TraceableTwigEnvironment extends TraceableTwigEnvironmentDebugBar
         }
 
     	$templates = $this->twig->loadTemplate($name, $index);
-    	p($templates);
+
     	$this->loadedTemplates[$cls] = new TraceableTwigTemplate($this, $templates);
-    	// $this->loadedTemplates[$cls] = false;
-    	// $this->loadedTemplates[$cls] = $templates;
-    	return $templates;
+    	return $this->loadedTemplates[$cls];
     }
 }
