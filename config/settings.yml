@@ -3,3 +3,4 @@ addContentLengthHeader: false
 determineRouteBeforeAppMiddleware: true
 outputBuffering: false
 routerCacheFile: false
+displayErrorDetails: '%env(DEBUG_MODE)%'

@@ -2,9 +2,10 @@
 
 namespace App\Controllers;
 
-use Monolog\Logger;
-use Slim\Views\Twig;
 use Illuminate\Support\Collection;
+use Monolog\Logger;
+use Slim\Http\Response;
+use Slim\Views\Twig;
 
 /**
 * 
@@ -29,8 +30,20 @@ class BaseController
 
 	protected function request($request, $response)
 	{
-		$this->logger->addInfo("Something interesting happened");
 		$this->request = $request;
 		$this->response = $response;
+	}
+
+	public function __call($name, $args){
+		$this->request($args[0], $args[1]);
+		$response = $this->$name($args[0], $args[1], $args[2]);
+		if( $response instanceof Response ){
+			return $response;
+		} else {
+			$tplName = strtolower(str_replace('Action', '', $name));			
+			if( $name == 'indexAction' )
+				$tplName = strtolower(substr(get_called_class(), strrpos(get_called_class(), '\\')+1));
+			return $this->render('pages/'.$tplName.'.html');
+		}
 	}
 }

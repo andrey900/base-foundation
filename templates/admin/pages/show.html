@@ -1,0 +1,46 @@
+{% extends 'masterpage.html' %}
+
+{% block pageTitle %}Detail info for user: {{ user.username }}{% endblock %}
+{% block breadcrumbs %}<li><a href="/admin/users">Users</a></li>{% endblock %}
+{% block pageName %}{{ user.username }}{% endblock %}
+
+{% block containerInPage %}
+<div class="col-xs-6">
+    <div class="white-box">
+        <h3 class="text-center">User info</h3>
+        <div class="row">
+        	<div class="col-md-5 text-right"><b>Id</b></div>
+        	<div class="col-md-7 text-left">{{ user.id }}</div>
+        </div>
+        <div class="row">
+        	<div class="col-md-5 text-right"><b>Username</b></div>
+        	<div class="col-md-7 text-left">{{ user.username }}</div>
+        </div>
+	    <div class="row">
+	    	<div class="col-md-5 text-right"><b>First name</b></div>
+	    	<div class="col-md-7 text-left">{{ user.first_name }}</div>
+	    </div>
+    	<div class="row">
+	    	<div class="col-md-5 text-right"><b>Last Name</b></div>
+	    	<div class="col-md-7 text-left">{{ user.last_name }}</div>
+	    </div>
+	    <div class="row">
+	    	<div class="col-md-5 text-right"><b>Active</b></div>
+	    	<div class="col-md-7 text-left">{{ user.active }}</div>
+	    </div>
+	    <div class="row">
+	    	<div class="col-md-5 text-right"><b>Verify</b></div>
+	    	<div class="col-md-7 text-left">{{ user.verified }}</div>
+	    </div>
+	    <div class="row">
+	    	<div class="col-md-5 text-right"><b>Admin comment</b></div>
+	    	<div class="col-md-7 text-left"><p>{{ user.admin_comment }}</p></div>
+	    </div>
+	    <div class="row">
+	    	<div class="col-md-5 text-right"><b>Date registered</b></div>
+	    	<div class="col-md-7 text-left">{{ user.created_at }}</div>
+	    </div>
+
+    </div>
+</div>
+{% endblock %}

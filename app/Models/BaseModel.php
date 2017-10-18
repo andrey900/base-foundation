@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 /**
 * 
 */
-class BaseMode extends Model
+class BaseModel extends Model
 {
 }

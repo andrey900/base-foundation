@@ -3,7 +3,10 @@ enableLogging: '%env(ENABLE_LOGGING)%'
 logFileName: 'app.log'
 logOnlyInDebugBar: '%env(USE_DEBUGBAR)%'
 
+adminUrl: '/admin/'
+
 templateName: 'main'
+adminTemplateName: 'admin'
 twigDebug: '%env(DEBUG_MODE)%'
 twigUseCache: false
 

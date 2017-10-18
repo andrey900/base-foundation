@@ -1,11 +1,16 @@
 <?php
 
 $container['view'] = function ($container) {
-	$templatesPath = TEMPLATES_PATH.$container->get('settings')['app']['templateName'];
-	
+    $appConfig = $container->get('settings')['app'];
+    $templatesPath = TEMPLATES_PATH.$appConfig['templateName'];
+
+    if( strpos($container->request->getUri()->getPath(), $appConfig['adminUrl']) === 0 ){
+	   $templatesPath = TEMPLATES_PATH.$appConfig['adminTemplateName'];
+    }
+
 	$config = [
-        'cache' => ($container->get('settings')['app']['twigUseCache']) ? CACHE_PATH.'twig'.DS : false,
-        'twigDebug' => $container->get('settings')['app']['twigDebug'],
+        'cache' => ($appConfig['twigUseCache']) ? CACHE_PATH.'twig'.DS : false,
+        'twigDebug' => $appConfig['twigDebug'],
         'file_extension' => 'html'
     ];
 

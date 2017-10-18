@@ -46,7 +46,7 @@
                         </form>
                     </li>
                     <li>
-                        <a class="profile-pic" href="#"> <img src="images/users/hritik.jpg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">Maruti</b> </a>
+                        <a class="profile-pic" href="#"> <img src="/assets/images/users/hritik.jpg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">Maruti</b> </a>
                     </li>
                 </ul>
             </div>
@@ -65,27 +65,7 @@
                             </span>
                         </div>
                     </li>
-                    <li>
-                        <a href="index.html" class="waves-effect"><i class="glyphicon glyphicon-fire fa-fw"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="profile.html" class="waves-effect"><i class="ti-user fa-fw"></i>Profile</a>
-                    </li>
-                    <li>
-                        <a href="basic-table.html" class="waves-effect"><i class="ti-layout fa-fw"></i>Basic-Table</a>
-                    </li>
-                    <li>
-                        <a href="themifyicon.html" class="waves-effect"><i class="ti-face-smile fa-fw"></i> Icons</a>
-                    </li>
-                    <li>
-                        <a href="map-google.html" class="waves-effect"><i class="ti-location-pin fa-fw"></i> Google Map</a>
-                    </li>
-                    <li>
-                        <a href="blank.html" class="waves-effect"><i class="ti-files fa-fw"></i> Blank Page</a>
-                    </li>
-                    <li>
-                        <a href="404.html" class="waves-effect"><i class="ti-info fa-fw"></i> Error 404</a>
-                    </li>
+                    {% include 'menu.html' %}
                 </ul>
                 <div class="center p-20">
                     <span class="hide-menu"><a href="#" target="_blank" class="btn btn-info btn-block btn-rounded waves-effect waves-light">Logout</a></span>
@@ -98,21 +78,24 @@
             <div class="container-fluid">
                 <div class="row bg-title">
                     <div class="col-lg-12">
-                        <h4 class="page-title">Blank</h4>
+                        <h4 class="page-title">{% block pageTitle %}{% endblock %}</h4>
                         <ol class="breadcrumb">
-                            <li><a href="#">Dashboard</a></li>
-                            <li class="active">Blank Page</li>
+                            <li><a href="/admin/">Admin</a></li>
+                            {% block breadcrumbs %}{% endblock %}
+                            <li class="active">{% block pageName %}{% endblock %}</li>
                         </ol>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
                 <!-- row -->
                 <div class="row">
+                {% block containerInPage %}
                     <div class="col-md-12">
                         <div class="white-box">
-                            <h3>Blank Page</h3>
+                            {% block content %}{% endblock %}
                         </div>
                     </div>
+                {% endblock %}
                 </div>
                 <!-- /.row -->
             </div>
@@ -124,17 +107,17 @@
     </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- Menu Plugin JavaScript -->
-    <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <script src="/assets/bower_components/metisMenu/dist/metisMenu.min.js"></script>
     <!--Nice scroll JavaScript -->
-    <script src="js/jquery.nicescroll.js"></script>
+    <script src="/assets/js/jquery.nicescroll.js"></script>
     <!--Wave Effects -->
-    <script src="js/waves.js"></script>
+    <script src="/assets/js/waves.js"></script>
     <!-- Custom Theme JavaScript -->
-    <script src="js/myadmin.js"></script>
+    <script src="/assets/js/myadmin.js"></script>
 </body>
 
 </html>

@@ -16,7 +16,7 @@ class UserSeeder extends AbstractSeed
     public function run()
     {
         $data[] = [
-            'username'      => 'admin',
+            'login'      => 'admin',
             'password'      => sha1('admin'),
             'email'         => "admin@localhost",
             'first_name'    => "admin",

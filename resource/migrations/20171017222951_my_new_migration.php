@@ -11,7 +11,7 @@ class MyNewMigration extends AbstractMigration
     public function up()
     {
         $users = $this->table('users');
-        $users->addColumn('username', 'string', ['limit' => 30])
+        $users->addColumn('login', 'string', ['limit' => 30])
               ->addColumn('password', 'string', ['limit' => 40])
               ->addColumn('email', 'string', ['limit' => 60])
               ->addColumn('first_name', 'string', ['limit' => 30])
@@ -20,7 +20,7 @@ class MyNewMigration extends AbstractMigration
               ->addColumn('updated_at', 'timestamp', ['null' => true])
               ->addColumn('active', 'boolean', ['default' => true])
               ->addColumn('verified', 'boolean', ['default' => false])
-              ->addIndex(['username', 'email'], ['unique' => true])
+              ->addIndex(['login', 'email'], ['unique' => true])
               ->save();
     }
 
