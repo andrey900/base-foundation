@@ -11,6 +11,7 @@ $container['view'] = function ($container) {
 	$config = [
         'cache' => ($appConfig['twigUseCache']) ? CACHE_PATH.'twig'.DS : false,
         'twigDebug' => $appConfig['twigDebug'],
+        'auto_reload' => $appConfig['twigAutoReload'],
         'file_extension' => 'html'
     ];
 

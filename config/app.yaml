@@ -9,5 +9,6 @@ templateName: 'main'
 adminTemplateName: 'admin'
 twigDebug: '%env(DEBUG_MODE)%'
 twigUseCache: false
+twigAutoReload: 'true'
 
 debugMode: '%env(DEBUG_MODE)%'
