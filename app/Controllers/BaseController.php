@@ -40,10 +40,9 @@ class BaseController
 		if( $response instanceof Response ){
 			return $response;
 		} else {
-			$tplName = strtolower(str_replace('Action', '', $name));			
-			if( $name == 'indexAction' )
-				$tplName = strtolower(substr(get_called_class(), strrpos(get_called_class(), '\\')+1));
-			return $this->render('pages/'.$tplName.'.html');
+			$tplName = strtolower(str_replace('Action', '', $name));	
+			$type = strtolower(substr(get_called_class(), strrpos(get_called_class(), '\\')+1));
+			return $this->render('pages/'.$type.'/'.$tplName.'.html');
 		}
 	}
 }

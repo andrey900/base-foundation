@@ -1,8 +1,8 @@
 {% extends 'masterpage.html' %}
 
-{% block pageTitle %}Detail info for user: {{ user.username }}{% endblock %}
+{% block pageTitle %}{{ user.username | capitalize }}{% endblock %}
 {% block breadcrumbs %}<li><a href="/admin/users">Users</a></li>{% endblock %}
-{% block pageName %}{{ user.username }}{% endblock %}
+{% block pageName %}{{ user.username | capitalize }}{% endblock %}
 
 {% block containerInPage %}
 <div class="col-xs-6">
@@ -15,6 +15,10 @@
         <div class="row">
         	<div class="col-md-5 text-right"><b>Username</b></div>
         	<div class="col-md-7 text-left">{{ user.username }}</div>
+        </div>
+        <div class="row">
+        	<div class="col-md-5 text-right"><b>Email</b></div>
+        	<div class="col-md-7 text-left">{{ user.email }}</div>
         </div>
 	    <div class="row">
 	    	<div class="col-md-5 text-right"><b>First name</b></div>
@@ -40,7 +44,14 @@
 	    	<div class="col-md-5 text-right"><b>Date registered</b></div>
 	    	<div class="col-md-7 text-left">{{ user.created_at }}</div>
 	    </div>
-
+	    <br>
+			<form method="POST" action="/admin/users/{{ user.id }}" class="text-center">
+			<input type="hidden" name="_method" value="DELETE">
+			<a href="/admin/users/{{ user.id }}/edit" class="btn btn-primary"><i class="ti-pencil fa-fw"></i>Edit</a>
+		{% if user.id > 1 %}
+			<button class="btn btn-danger" type="submit"><i class="ti-close fa-fw"></i>Delete</button>
+		{% endif %}
+			</form>
     </div>
 </div>
 {% endblock %}

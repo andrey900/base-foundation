@@ -1,9 +1,10 @@
 {% extends 'masterpage.html' %}
 
-{% block pageTitle %}Users{% endblock %}
+{% block pageTitle %}Users <p class="text-right create-btn"><a href="/admin/users/create" class="btn btn-primary">Create User</a></p>{% endblock %}
 {% block pageName %}Users{% endblock %}
 
-{% block content %}{% if users %}
+{% block content %}
+{% if users %}
 <div class="table-responsive">
     <table class="table">
         <thead>

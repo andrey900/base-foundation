@@ -1,0 +1,7 @@
+.row.form-group label{
+	line-height: 2.4em;
+}
+.create-btn{
+	display: inline-block;
+    float: right;
+}

@@ -16,6 +16,7 @@ class MyNewMigration extends AbstractMigration
               ->addColumn('email', 'string', ['limit' => 60])
               ->addColumn('first_name', 'string', ['limit' => 30])
               ->addColumn('last_name', 'string', ['limit' => 30])
+              ->addColumn('admin_comment', 'string', ['limit' => 255])
               ->addColumn('created_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
               ->addColumn('updated_at', 'timestamp', ['null' => true])
               ->addColumn('active', 'boolean', ['default' => true])

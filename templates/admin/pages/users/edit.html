@@ -1,0 +1,67 @@
+{% extends 'masterpage.html' %}
+
+{% block pageTitle %}
+    {% if user.id %}
+    Edit user: {{ user.username | capitalize }}
+    {% else %}
+    Create new user
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li><a href="/admin/users">Users</a></li>
+    {% if user.id %}<li><a href="/admin/users/{{ user.id }}">{{ user.username | capitalize }}</a></li>{% endif %}
+{% endblock %}
+{% block pageName %}{% if user.id %}Edit{% else %}Create{% endif %}{% endblock %}
+
+{% block containerInPage %}
+<div class="col-xs-10">
+    <div class="white-box">
+
+        {% if user.id %}
+            <form action="/admin/users/{{ user.id }}" method="POST" class="form-horizontal form-material">
+            <input type="hidden" name="_method" value="PUT">
+        {% else %}
+            <form action="/admin/users" method="POST" class="form-horizontal form-material">
+        {% endif %}
+
+        <h3 class="text-center">{% if user.id %}Edit{% else %}Create{% endif %} User</h3>
+        <div class="row form-group">
+            <label class="col-md-3 text-right">Username</label>
+            <div class="col-md-9 text-left"><input class="form-control form-control-line" type="text" name="username" value="{{ user.username }}"></div>
+        </div>
+        <div class="row form-group">
+            <label class="col-md-3 text-right">Email</label>
+            <div class="col-md-9 text-left"><input class="form-control form-control-line" type="text" name="email" value="{{ user.email }}"></div>
+        </div>
+        <div class="row form-group">
+            <label class="col-md-3 text-right">First name</label>
+            <div class="col-md-9 text-left"><input class="form-control form-control-line" type="text" type="text" name="first_name" value="{{ user.first_name }}"></div>
+        </div>
+        <div class="row form-group">
+            <label class="col-md-3 text-right">Last Name</label>
+            <div class="col-md-9 text-left"><input class="form-control form-control-line" type="text" name="last_name" value="{{ user.last_name }}"></div>
+        </div>
+        <div class="row form-group">
+            <label class="col-md-3 text-right" for="field-active">Active</label>
+            <div class="col-md-9 text-left">
+                <input type="hidden" name="active" value="0">
+                <input id="field-active" class="form-check-input" type="checkbox" name="active" value="1" {% if user.active %}checked=""{% endif %}>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label class="col-md-3 text-right" for="field-verify">Verify</label>
+            <div class="col-md-9 text-left">
+                <input type="hidden" name="verified" value="0">
+                <input id="field-verify" class="form-check-input" type="checkbox" name="verified" value="1" {% if user.verified %}checked=""{% endif %}>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label class="col-md-3 text-right">Admin comment</label>
+            <div class="col-md-9 text-left"><textarea name="admin_comment" class="form-control form-control-line" rows="5" placeholder="Comment">{{ user.admin_comment }}</textarea></div>
+        </div>
+<br>
+        <p class="text-center"><button class="btn btn-primary" type="submit" ><i class="ti-save fa-fw"></i>Save</button></p>
+    </div>
+</div>
+{% endblock %}
