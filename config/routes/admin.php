@@ -10,3 +10,6 @@ $app->group('/admin', function(){
 	$this->put('/users/{id:[0-9]+}', \Controllers\Admin\Users::class.':updateAction');
 	$this->delete('/users/{id:[0-9]+}', \Controllers\Admin\Users::class.':destroyAction');
 })->add( new App\Middleware\AuthMiddleware() );
+
+$app->get('/admin/login', \Controllers\Admin\Auth::class.':indexAction');
+$app->post('/admin/login', \Controllers\Admin\Auth::class.':loginAction');

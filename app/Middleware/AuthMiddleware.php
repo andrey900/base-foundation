@@ -21,7 +21,7 @@ class AuthMiddleware extends BaseMiddleware
     		$response = $next($request, $response);
         	return $response;
     	} else {
-    		$_SESSION['AUTH']['LAST_REQUEST'] = $request->getServerParams()['REQUEST_URI'];
+    		$_SESSION['auth']['last_request'] = $request->getServerParams()['REQUEST_URI'];
     		
     		return $response->withRedirect('/');
     	}
@@ -29,7 +29,7 @@ class AuthMiddleware extends BaseMiddleware
 
     protected function checkPermission()
     {
-    	$auth = $_SESSION['AUTH'];
+    	$auth = $_SESSION['auth'];
     	if( !$auth )
     		return false;
 

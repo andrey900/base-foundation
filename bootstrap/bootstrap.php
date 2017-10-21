@@ -4,6 +4,8 @@ require 'define.php';
 require BASE_PATH.'vendor'.DS.'autoload.php';
 require 'functions.php';
 
+session_start();
+
 use AppLib\Config\ConfigLoader;
 
 $configLoader = new ConfigLoader([CONFIG_PATH]);
