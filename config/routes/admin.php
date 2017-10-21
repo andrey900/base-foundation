@@ -9,4 +9,4 @@ $app->group('/admin', function(){
 	$this->post('/users/{id:[0-9]+}', \Controllers\Admin\Users::class.':updelAction');
 	$this->put('/users/{id:[0-9]+}', \Controllers\Admin\Users::class.':updateAction');
 	$this->delete('/users/{id:[0-9]+}', \Controllers\Admin\Users::class.':destroyAction');
-});
+})->add( new App\Middleware\AuthMiddleware() );

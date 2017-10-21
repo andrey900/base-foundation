@@ -13,3 +13,5 @@ $container['db'] = function ($container) {
 
     return $capsule;
 };
+
+$container->db;
