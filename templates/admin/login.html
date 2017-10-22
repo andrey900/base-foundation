@@ -4,10 +4,7 @@
 	<title>Login</title>
 	<style type="text/css">
 		@import url(https://fonts.googleapis.com/css?family=Roboto:300);
-h2{
-	font-family: "Roboto", sans-serif;
-	margin: 0 auto 10px auto;
-}
+
 .login-page {
   width: 360px;
   padding: 8% 0 0;
@@ -97,11 +94,11 @@ h2{
   color: #EF3B3A;
 }
 body {
-  background: #3a3f51; /* fallback for old browsers */
-  background: -webkit-linear-gradient(right, #3a3f51, #4d5262);
-  background: -moz-linear-gradient(right, #3a3f51, #4d5262);
-  background: -o-linear-gradient(right, #3a3f51, #4d5262);
-  background: linear-gradient(to right, #3a3f51, #4d5262);
+  background: #76b852; /* fallback for old browsers */
+  background: -webkit-linear-gradient(right, #76b852, #8DC26F);
+  background: -moz-linear-gradient(right, #76b852, #8DC26F);
+  background: -o-linear-gradient(right, #76b852, #8DC26F);
+  background: linear-gradient(to left, #76b852, #8DC26F);
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      
@@ -111,20 +108,16 @@ body {
 <body>
 <div class="login-page">
   <div class="form">
-	<h2>Admin panel</h2>
-    <form class="register-form" method="POST" action="/admin/signup">
-      <input type="text" placeholder="username" name="login" />
-      <input type="text" placeholder="email address" name="email" />
-      <input type="password" placeholder="password" name="password1" />
-      <input type="password" placeholder="re password" name="password2" />
+    <form class="register-form">
+      <input type="text" placeholder="name"/>
+      <input type="password" placeholder="password"/>
+      <input type="text" placeholder="email address"/>
       <button>create</button>
       <p class="message">Already registered? <a href="#">Sign In</a></p>
     </form>
-    <form method="POST" action="/admin/login" class="login-form">
-      <input type="hidden" name="rememberme" value="0">
-      <input type="text" placeholder="username" name="login" />
-      <input type="password" placeholder="password" name="password"/>
-      <label> Remember me <input style="width: auto;" type="checkbox" name="rememberme" value="1"></label>	  
+    <form class="login-form">
+      <input type="text" placeholder="username"/>
+      <input type="password" placeholder="password"/>
       <button>login</button>
       <p class="message">Not registered? <a href="#">Create an account</a></p>
     </form>

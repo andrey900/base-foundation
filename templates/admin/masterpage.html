@@ -40,8 +40,20 @@
                     <li><a href="javascript:void(0)" class="open-close hidden-xs hidden-lg waves-effect waves-light"><i class="ti-arrow-circle-left ti-menu"></i></a></li>
                 </ul>
                 <ul class="nav navbar-top-links navbar-right pull-right">
-                    <li>
-                        <a class="profile-pic" href="/admin/users"> <img src="/assets/images/users/hritik.jpg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">Maruti</b> </a>
+                    <!-- <li class="dropdown">
+                        <a class="profile-pic" href="/admin/logout"> <img src="/assets/images/users/hritik.jpg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">{{ user.login | capitalize }}</b> </a>
+                    </li> -->
+                    <li class="dropdown"> <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="/assets/images/users/hritik.jpg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">{{ user.login | capitalize }}</b> </a>
+                      <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
+                        <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
+                        <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/admin/users/{{ user.id }}/edit"><i class="ti-settings"></i> Account Setting</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/admin/logout"><i class="fa fa-power-off"></i> Logout</a></li>
+                      </ul>
+                      <!-- /.dropdown-user -->
                     </li>
                 </ul>
             </div>
@@ -62,9 +74,6 @@
                     </li>
                     {% include 'menu.html' %}
                 </ul>
-                <div class="center p-20">
-                    <span class="hide-menu"><a href="#" target="_blank" class="btn btn-info btn-block btn-rounded waves-effect waves-light">Logout</a></span>
-                </div>
             </div>
             <!-- /.sidebar-collapse -->
         </div>
@@ -87,6 +96,25 @@
                 {% block containerInPage %}
                     <div class="col-md-12">
                         <div class="white-box">
+{#
+        <div class="white-box">
+      <h4>Alert bottom right </h4>
+      <!-- Trigger -->
+      <button id="showbottomright" class="btn btn-info">Show Bottom Left</button>
+      <!-- Start an Alert -->
+      <div id="alertbottomright" class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert8 myadmin-alert-bottom-right" style="display: none;"> <i class="ti-user"></i> John became a pro member. </div>
+      <!-- End an Alert -->
+    </div>
+
+<div class="white-box">
+            <h3>Normal Alerts</h3>
+            <div class="alert alert-success"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="#" class="alert-link">Alert Link</a>. </div>
+            <div class="alert alert-info"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="#" class="alert-link">Alert Link</a>. </div>
+            <div class="alert alert-warning"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="#" class="alert-link">Alert Link</a>. </div>
+            <div class="alert alert-danger"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="#" class="alert-link">Alert Link</a>. </div>
+          </div>
+          #}
+
                             {% block content %}{% endblock %}
                         </div>
                     </div>

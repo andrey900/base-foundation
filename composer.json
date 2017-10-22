@@ -8,7 +8,8 @@
         "monolog/monolog": "^1.23",
         "robmorgan/phinx": "^0.9.1",
         "kitchenu/slim-debugbar": "^1.0",
-        "illuminate/database": "^5.5"
+        "illuminate/database": "^5.5",
+        "swiftmailer/swiftmailer": "^6.0"
     },
     "autoload": {
         "psr-4": {

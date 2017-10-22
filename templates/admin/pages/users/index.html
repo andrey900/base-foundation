@@ -5,7 +5,7 @@
 
 {% block content %}
 {% if users %}
-<div class="table-responsive">
+<div class="table">
     <table class="table">
         <thead>
             <tr>
@@ -17,19 +17,32 @@
                 <th>Active</th>
                 <th>Verify</th>
                 <th>Date register</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
 			{% for user in users %}
             <tr>
 				<td><a href="/admin/users/{{user.id}}">{{ user.id }}</a></td>
-				<td><a href="/admin/users/{{user.id}}">{{ user.username }}</a></td>
+				<td><a href="/admin/users/{{user.id}}">{{ user.login }}</a></td>
 				<td>{{ user.email }}</td>
 				<td>{{ user.first_name }}</td>
 				<td>{{ user.last_name }}</td>
 				<td>{{ user.active }}</td>
 				<td>{{ user.verified }}</td>
-				<td>{{ user.created_at }}</td>
+                <td>{{ user.created_at }}</td>
+				<td>
+                    <div class="btn-group">
+                      <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default dropdown-toggle waves-effect waves-light btn-xs" type="button">Actions<span class="caret"></span></button>
+                      <ul role="menu" class="dropdown-menu">
+                        <li><a href="/admin/users/{{ user.id }}">Show</a></li>
+                        <li><a href="/admin/users/{{ user.id }}/edit">Edit</a></li>
+                        <li><a href="/admin/users/{{ user.id }}/delete">Delete</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Active</a></li>
+                      </ul>
+                    </div>
+                </td>
             </tr>
 			{% endfor %}
         </tbody>

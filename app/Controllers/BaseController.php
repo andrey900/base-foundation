@@ -14,13 +14,25 @@ class BaseController
 {
 	protected $view;
 	protected $logger;
+	protected $settings;
 	protected $viewCollection;
 
-	public function __construct(Twig $view, Logger $log)
+	public function __construct(Twig $view, Logger $log, $settings)
 	{
 		$this->view = $view;
 		$this->logger = $log;
+		$this->settings = $settings;
+
 		$this->viewCollection = new Collection;
+
+		if( $_SESSION['auth'] && $_SESSION['auth']->has('user.id')){
+			$this->viewCollection['user'] = [
+				'id' => $_SESSION['auth']['user.id'],
+				'login' => $_SESSION['auth']['user.login'],
+				'first_name' => $_SESSION['auth']['user.first_name'],
+				'last_name' => $_SESSION['auth']['user.last_name'],
+			];
+		}
 	}
 
 	public function render($templateName)

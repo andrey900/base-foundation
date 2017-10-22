@@ -2,7 +2,7 @@
 
 {% block pageTitle %}
     {% if user.id %}
-    Edit user: {{ user.username | capitalize }}
+    Edit user: {{ user.login | capitalize }}
     {% else %}
     Create new user
     {% endif %}
@@ -10,7 +10,7 @@
 
 {% block breadcrumbs %}
     <li><a href="/admin/users">Users</a></li>
-    {% if user.id %}<li><a href="/admin/users/{{ user.id }}">{{ user.username | capitalize }}</a></li>{% endif %}
+    {% if user.id %}<li><a href="/admin/users/{{ user.id }}">{{ user.login | capitalize }}</a></li>{% endif %}
 {% endblock %}
 {% block pageName %}{% if user.id %}Edit{% else %}Create{% endif %}{% endblock %}
 
@@ -28,7 +28,7 @@
         <h3 class="text-center">{% if user.id %}Edit{% else %}Create{% endif %} User</h3>
         <div class="row form-group">
             <label class="col-md-3 text-right">Username</label>
-            <div class="col-md-9 text-left"><input class="form-control form-control-line" type="text" name="username" value="{{ user.username }}"></div>
+            <div class="col-md-9 text-left"><input class="form-control form-control-line" type="text" name="login" value="{{ user.login }}"></div>
         </div>
         <div class="row form-group">
             <label class="col-md-3 text-right">Email</label>
@@ -60,8 +60,16 @@
             <label class="col-md-3 text-right">Admin comment</label>
             <div class="col-md-9 text-left"><textarea name="admin_comment" class="form-control form-control-line" rows="5" placeholder="Comment">{{ user.admin_comment }}</textarea></div>
         </div>
+        <div class="row form-group">
+            <label class="col-md-3 text-right">Password</label>
+            <div class="col-md-9 text-left"><input class="form-control form-control-line" type="text" name="password1"></div>
+        </div>
+        <div class="row form-group">
+            <label class="col-md-3 text-right">Confirm new password</label>
+            <div class="col-md-9 text-left"><input class="form-control form-control-line" type="text" name="password2"></div>
+        </div>
 <br>
-        <p class="text-center"><button class="btn btn-primary" type="submit" ><i class="ti-save fa-fw"></i>Save</button></p>
+        <p class="text-center"><button class="btn btn-primary" type="submit" ><i class="ti-save fa-fw"></i>Save</button><a href="/admin/users" class="btn btn-danger" ><i class="ti-close fa-fw"></i>Cancel</a></p>
     </div>
 </div>
 {% endblock %}

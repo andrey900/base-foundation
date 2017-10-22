@@ -18,6 +18,12 @@ class Controller
 	{
 		$_type = ($type == 'b') ? 'Backend' : 'Frontend';
 		$clName = '\\App\\Controllers\\'.$_type.'\\'.$name;
-		return new $clName($this->c->get("view"), $this->c->get("logger"));
+		$controller = new $clName(
+			$this->c->get("view"), 
+			$this->c->get("logger"),
+			$this->c->settings
+		);
+
+		return $controller;
 	}
 }

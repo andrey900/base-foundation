@@ -12,3 +12,5 @@ twigUseCache: false
 twigAutoReload: 'true'
 
 debugMode: '%env(DEBUG_MODE)%'
+
+appKey: '%env(APP_KEY)%'

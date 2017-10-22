@@ -17,10 +17,12 @@ class UserSeeder extends AbstractSeed
     {
         $data[] = [
             'login'      => 'admin',
-            'password'      => sha1('admin'),
+            'password'      => '$2y$10$q21.vBALVSrM.hQb7uxMJ.rgv/4TkFt./YLZo4VBdSJji3xTX53/2',
             'email'         => "admin@localhost",
             'first_name'    => "admin",
-            'last_name'     => "admin"
+            'last_name'     => "admin",
+            'verified'      => true,
+            'active'        => true
         ];
         $users = $this->table('users');
         $users->insert($data)->save();

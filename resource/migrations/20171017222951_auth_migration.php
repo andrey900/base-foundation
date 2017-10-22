@@ -3,7 +3,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class MyNewMigration extends AbstractMigration
+class AuthMigration extends AbstractMigration
 {
     /**
      * Migrate Up.
@@ -12,7 +12,7 @@ class MyNewMigration extends AbstractMigration
     {
         $users = $this->table('users');
         $users->addColumn('login', 'string', ['limit' => 30])
-              ->addColumn('password', 'string', ['limit' => 40])
+              ->addColumn('password', 'string', ['limit' => 60])
               ->addColumn('email', 'string', ['limit' => 60])
               ->addColumn('first_name', 'string', ['limit' => 30])
               ->addColumn('last_name', 'string', ['limit' => 30])
@@ -30,6 +30,6 @@ class MyNewMigration extends AbstractMigration
      */
     public function down()
     {
-
+        $this->dropTable('users');
     }
 }

@@ -57,4 +57,36 @@ $(document).ready(function() {
         $(".logo span").toggle();
         $("body").toggleClass("content-wrapper");
     });
+
+
+//Alerts
+
+  $(".myadmin-alert .closed").click(function(event){
+  $(this).parents(".myadmin-alert").fadeToggle(350);
+
+  return false;
+}); 
+
+/* Click to close */
+
+  $(".myadmin-alert-click").click(function(event){
+  $(this).fadeToggle(350);
+
+  return false;
+}); 
+  
+    $("#showbottomright").click(function(){
+        $("#alertbottomright").fadeToggle(350);
+    });
+
+    //tooltip
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+
+//Popover
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
 });

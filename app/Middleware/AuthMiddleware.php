@@ -2,6 +2,7 @@
 
 namespace App\Middleware;
 
+use Illuminate\Database\Eloquent\Collection;
 use Slim\Http\Body;
 
 class AuthMiddleware extends BaseMiddleware
@@ -21,9 +22,12 @@ class AuthMiddleware extends BaseMiddleware
     		$response = $next($request, $response);
         	return $response;
     	} else {
-    		$_SESSION['auth']['last_request'] = $request->getServerParams()['REQUEST_URI'];
+            if( !$_SESSION['auth'] )
+                $_SESSION['auth'] = new Collection();
     		
-    		return $response->withRedirect('/');
+            $_SESSION['auth']['last_request'] = $request->getServerParams()['REQUEST_URI'];
+
+    		return $response->withRedirect('/admin/login');
     	}
     }
 

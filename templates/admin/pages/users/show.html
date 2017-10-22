@@ -1,8 +1,8 @@
 {% extends 'masterpage.html' %}
 
-{% block pageTitle %}{{ user.username | capitalize }}{% endblock %}
+{% block pageTitle %}{{ user.login | capitalize }}{% endblock %}
 {% block breadcrumbs %}<li><a href="/admin/users">Users</a></li>{% endblock %}
-{% block pageName %}{{ user.username | capitalize }}{% endblock %}
+{% block pageName %}{{ user.login | capitalize }}{% endblock %}
 
 {% block containerInPage %}
 <div class="col-xs-6">
@@ -14,7 +14,7 @@
         </div>
         <div class="row">
         	<div class="col-md-5 text-right"><b>Username</b></div>
-        	<div class="col-md-7 text-left">{{ user.username }}</div>
+        	<div class="col-md-7 text-left">{{ user.login }}</div>
         </div>
         <div class="row">
         	<div class="col-md-5 text-right"><b>Email</b></div>
