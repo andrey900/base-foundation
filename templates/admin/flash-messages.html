@@ -1,0 +1,18 @@
+{% if errors or success %}
+<div class="flash-messages">
+{% if errors %}
+    {% for error in errors %}
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ error }}.
+        </div>
+    {% endfor %}
+{% endif %}
+{% if success %}
+    {% for suc in success %}
+        <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ suc }}.
+        </div>
+    {% endfor %}
+{% endif %}
+</div>
+{% endif %}

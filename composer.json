@@ -9,7 +9,10 @@
         "robmorgan/phinx": "^0.9.1",
         "kitchenu/slim-debugbar": "^1.0",
         "illuminate/database": "^5.5",
-        "swiftmailer/swiftmailer": "^6.0"
+        "swiftmailer/swiftmailer": "^6.0",
+        "simple-validator/simple-validator": "^1.0",
+        "bryanjhv/slim-session": "^3.3",
+        "slim/flash": "^0.4.0"
     },
     "autoload": {
         "psr-4": {

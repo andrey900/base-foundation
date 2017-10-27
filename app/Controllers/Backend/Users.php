@@ -2,11 +2,10 @@
 
 namespace App\Controllers\Backend;
 
-use App\Controllers\BaseController;
 use App\Models\BaseModel;
 use App\Models\Users as UsersEntity;
 
-class Users extends BaseController
+class Users extends BaseAdminController
 {
 	protected function indexAction()
 	{
@@ -31,11 +30,21 @@ class Users extends BaseController
 
 	protected function storeAction()
 	{
-		$id = UsersEntity::create($this->request->getParsedBody());
-		if( $id )
-			return $this->response->withRedirect('/admin/users');
-		else
+		$user = new UsersEntity;
+		$user = $user->create($this->request->getParsedBody());
+		if( !$user->isSuccess() ){
+			foreach ($user->getErrors() as $error) {
+				$this->flash->addMessage('errors', $error);
+			}
 			return $this->response->withRedirect('/admin/users/create');
+		} else {
+			$this->flash->addMessage('success', 'users is created');
+			return $this->response->withRedirect('/admin/users/'.$user->id);
+		}
+		// if( $id )
+			// return $this->response->withRedirect('/admin/users');
+		// else
+			// return $this->response->withRedirect('/admin/users/create');
 	}
 
 	protected function updateAction()
@@ -43,7 +52,15 @@ class Users extends BaseController
 		$data = $this->request->getParsedBody();
 		$user = UsersEntity::find($this->request->getAttribute('id'));
 		$user->update($data);
-		return $this->response->withRedirect('/admin/users/'.$user->id);
+		if( !$user->isSuccess() ){
+			foreach ($user->getErrors() as $error) {
+				$this->flash->addMessage('errors', $error);
+			}
+			return $this->response->withRedirect('/admin/users/'.$user->id.'/edit');
+		} else {
+			$this->flash->addMessage('success', 'users is updated');
+			return $this->response->withRedirect('/admin/users/'.$user->id);
+		}
 	}
 
 	protected function destroyAction()

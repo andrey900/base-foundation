@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Backend;
 
 use Illuminate\Support\Collection;
 use Monolog\Logger;
@@ -11,7 +11,7 @@ use Slim\Views\Twig;
 /**
 * 
 */
-class BaseController
+class BaseAdminController
 {
 	protected $view;
 	protected $logger;

@@ -24,6 +24,8 @@ class Controller
 			$this->c->settings
 		);
 
+		$controller->setFlash($this->c->get('flash'));
+
 		return $controller;
 	}
 }

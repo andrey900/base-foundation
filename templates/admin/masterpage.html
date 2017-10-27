@@ -39,6 +39,7 @@
                 <ul class="nav navbar-top-links navbar-left hidden-xs">
                     <li><a href="javascript:void(0)" class="open-close hidden-xs hidden-lg waves-effect waves-light"><i class="ti-arrow-circle-left ti-menu"></i></a></li>
                 </ul>
+                {% include 'flash-messages.html' %}
                 <ul class="nav navbar-top-links navbar-right pull-right">
                     <!-- <li class="dropdown">
                         <a class="profile-pic" href="/admin/logout"> <img src="/assets/images/users/hritik.jpg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">{{ user.login | capitalize }}</b> </a>
@@ -93,9 +94,11 @@
                 </div>
                 <!-- row -->
                 <div class="row">
+
                 {% block containerInPage %}
                     <div class="col-md-12">
                         <div class="white-box">
+
 {#
         <div class="white-box">
       <h4>Alert bottom right </h4>
@@ -106,13 +109,6 @@
       <!-- End an Alert -->
     </div>
 
-<div class="white-box">
-            <h3>Normal Alerts</h3>
-            <div class="alert alert-success"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="#" class="alert-link">Alert Link</a>. </div>
-            <div class="alert alert-info"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="#" class="alert-link">Alert Link</a>. </div>
-            <div class="alert alert-warning"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="#" class="alert-link">Alert Link</a>. </div>
-            <div class="alert alert-danger"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="#" class="alert-link">Alert Link</a>. </div>
-          </div>
           #}
 
                             {% block content %}{% endblock %}
