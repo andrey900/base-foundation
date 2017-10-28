@@ -137,7 +137,12 @@ class ConfigLoader
 	    return ['settings' => $settings + $config];
 	}
 
-	public function loadRoutes()
+	public function getConfigPath()
+	{
+		return $this->configPaths;
+	}
+
+	/*public function loadRoutes()
 	{
 		foreach ($this->configPaths as $paths) {
 			global $app;
@@ -149,9 +154,9 @@ class ConfigLoader
 				}
 			}
 		}
-	}
+	}*/
 
-	public function loadProviders()
+	/*public function loadProviders()
 	{
 		global $container;
 		$files = new \FilesystemIterator(APP_PATH.'Providers'.DS);
@@ -169,5 +174,5 @@ class ConfigLoader
 		foreach($filesCollection as $file){
 			include $file->getPathname();
 		}
-	}
+	}*/
 }
