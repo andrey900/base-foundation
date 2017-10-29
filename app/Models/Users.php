@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Ext\Kernel;
 use App\Events\UsersEvent;
 
 /**
@@ -71,17 +72,17 @@ class Users extends BaseModel
 		if( !$this->id ){
 			$registerUser = true;
 			$event = new UsersEvent($this);
-			\Dispatcher::dispatch(UsersEvent::BEFORE_REGISTER, $event);
+			Kernel::getInstance('container')->get('dispatcher')->dispatch(UsersEvent::BEFORE_REGISTER, $event);
 		}
 
 		parent::save();
 
 		if( $registerUser ){
 			$event = new UsersEvent($this);
-			\Dispatcher::dispatch(UsersEvent::AFTER_REGISTER, $event);
+			Kernel::getInstance('container')->get('dispatcher')->dispatch(UsersEvent::AFTER_REGISTER, $event);
 		}
 
 		$event = new UsersEvent($this);
-		\Dispatcher::dispatch(UsersEvent::AFTER_SAVE, $event);
+		Kernel::getInstance('container')->get('dispatcher')->dispatch(UsersEvent::AFTER_SAVE, $event);
 	}
 }

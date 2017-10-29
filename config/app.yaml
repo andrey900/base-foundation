@@ -14,3 +14,20 @@ twigAutoReload: 'true'
 debugMode: '%env(DEBUG_MODE)%'
 
 appKey: '%env(APP_KEY)%'
+
+
+loadAliaces: true
+aliases:
+  request: 'Facade\Request'
+  response: 'Facade\Response'
+  router: 'Facade\Router'
+  dispatcher: 'Facade\Dispatcher'
+  session: 'Facade\Session'
+  logger: 'Facade\Logger'
+  flash: 'Facade\Flash'
+  validator: 'Facade\Validator'
+  db: 'Facade\Database'
+  view: 'Facade\View'
+  view: 'Facade\Twig'
+  mailer: 'Facade\Mailer'
+  collection: 'Facade\Collection'

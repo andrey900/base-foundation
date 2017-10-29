@@ -128,6 +128,7 @@ $delegatingLoader = new DelegatingLoader($loaderResolver);
 $config = new ConfigLoader([CONFIG_PATH]);
 $config->load();
 p($config->get());
+
 /*foreach ($locator->getPaths() as $files) {
     p($files);
 }

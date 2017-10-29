@@ -1,12 +1,8 @@
 <?php
 
-use \Psr\Http\Message\ResponseInterface as Response;
-use \Psr\Http\Message\ServerRequestInterface as Request;
+use \App\Ext\Kernel;
+use \Slim\Middleware\Session;
 
-/*$app->get('/', function (Request $request, Response $response) {
-    $this->logger->addInfo("Something interesting happened");
-    // return $response;
-    return $this->view->render($response, 'profile.html');
-})->setName('index');*/
+$app->add(new Session(Kernel::getInstance('config')['settings']['session']));
 
 $app->get('/', \Controllers\Home::class.':home');

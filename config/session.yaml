@@ -1,0 +1,4 @@
+path: '/'
+name: 'sess_id'
+lifetime: '30 minutes'
+autorefresh: true

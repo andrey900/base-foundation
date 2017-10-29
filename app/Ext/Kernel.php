@@ -3,7 +3,9 @@
 namespace App\Ext;
 
 use AppLib\Config\ConfigLoader;
+use AppLib\SessionMiddleware;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Pimple\ServiceProviderInterface;
 
 /**
@@ -95,13 +97,24 @@ class Kernel
 		} else {
 			error_reporting(E_ERROR|E_PARSE|E_CORE_ERROR|E_COMPILE_ERROR|E_USER_ERROR);
 		}
-
+        
+        static::loadSession();
+        
 		static::registerServices();
+
+		if( $settings['settings']['app']['loadAliaces'] && $settings['settings']['app']['aliases'] )
+			static::classAliace(new Collection($settings['settings']['app']['aliases']));
 
 		static::loadRoutes();
 
 		return static::instanceApp();
 	}
+    
+    protected static function loadSession()
+    {  
+        $sessionStart = new SessionMiddleware(static::getInstance('config')['settings']['session']);
+        $sessionStart->initSession();
+    }
 
 	protected static function loadRoutes()
 	{
@@ -132,5 +145,14 @@ class Kernel
 	        	}
 	        });
     	}
+    }
+
+    protected static function classAliace(Collection $aliases)
+    {
+    	$container = static::getInstance('container');
+    	$aliases->each(function ($item, $key) use ($container) {
+    		if( $container->has($key) )
+    			class_alias($container->get($key), $item, false);
+    	});
     }
 }

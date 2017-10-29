@@ -2,11 +2,12 @@
 
 namespace App\Controllers;
 
-use Illuminate\Support\Collection;
+use App\Ext\Kernel;
 use Monolog\Logger;
-use Slim\Flash\Messages;
-use Slim\Http\Response;
 use Slim\Views\Twig;
+use Slim\Http\Response;
+use Slim\Flash\Messages;
+use Illuminate\Support\Collection;
 
 /**
 * 
@@ -16,6 +17,7 @@ class BaseController
 	protected $view;
 	protected $logger;
 	protected $settings;
+	protected $session;
 	protected $flash;
 	protected $viewCollection;
 
@@ -24,15 +26,17 @@ class BaseController
 		$this->view = $view;
 		$this->logger = $log;
 		$this->settings = $settings;
+        
+        $this->session = Kernel::getInstance('container')->get('session');
 
 		$this->viewCollection = new Collection;
 
-		if( $_SESSION['auth'] && $_SESSION['auth']->has('user.id')){
-			$this->viewCollection['user'] = [
-				'id' => $_SESSION['auth']['user.id'],
-				'login' => $_SESSION['auth']['user.login'],
-				'first_name' => $_SESSION['auth']['user.first_name'],
-				'last_name' => $_SESSION['auth']['user.last_name'],
+		if( $this->session['auth'] && $this->session['auth']->has('user.id')){
+			$this->viewCollection['current_user'] = [
+				'id' => $this->session['auth']['user.id'],
+				'login' => $this->session['auth']['user.login'],
+				'first_name' => $this->session['auth']['user.first_name'],
+				'last_name' => $this->session['auth']['user.last_name'],
 			];
 		}
 	}

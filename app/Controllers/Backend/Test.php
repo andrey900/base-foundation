@@ -2,11 +2,10 @@
 
 namespace App\Controllers\Backend;
 
-use App\Controllers\BaseController;
 use App\Models\BaseModel;
 use App\Models\Users as UsersEntity;
 
-class Test extends BaseController
+class Test extends BaseAdminController
 {
 	protected function indexAction()
 	{

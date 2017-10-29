@@ -1,4 +1,5 @@
 10: '\App\Services\EventDispatcherServiceProvider'
+15: '\App\Services\SessionServiceProvider'
 20: '\App\Services\LoggerServiceProvider'
 30: '\App\Services\EventListenersServiceProvider'
 40: '\App\Services\FlashServiceProvider'
@@ -9,3 +10,4 @@
 90: '\App\Services\ControllerFactoryServiceProvider'
 100: '\App\Services\DebugBarServiceProvider'
 110: '\App\Services\RouteControllersServiceProvider'
+120: '\App\Services\CollectionServiceProvider'

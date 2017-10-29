@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Ext\Kernel;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -30,10 +31,10 @@ class BaseModel extends Model
 			if( method_exists($this, 'extRules') )
 				$this->extRules();
 
-			return $GLOBALS['container']->get('validator')->instance($arFields, $this->rules, $this->ruleMessages);
+			return Kernel::getInstance('container')->get('validator')->instance($arFields, $this->rules, $this->ruleMessages);
 		}
 
-		return $GLOBALS['container']->get('validator')->instance($arFields, []);
+		return Kernel::getInstance('container')->get('validator')->instance($arFields, []);
 	}
 
 	public function getErrors()

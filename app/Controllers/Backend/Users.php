@@ -20,31 +20,41 @@ class Users extends BaseAdminController
 	protected function editAction()
 	{
 		$this->viewCollection['user'] = UsersEntity::find($this->request->getAttribute('id'));
+        if( $formFields = $this->flash->getMessage('jsonFormData') ){
+            $formFields = (array)json_decode($formFields[0]);
+            $this->viewCollection['user']->fill($formFields);
+        }
 	}
 
 	protected function createAction()
 	{
 		$this->viewCollection['user'] = new UsersEntity;
-		return $this->render('pages/users/edit.html');
+        
+        if( $formFields = $this->flash->getMessage('jsonFormData') ){
+            $formFields = (array)json_decode($formFields[0]);
+            $this->viewCollection['user'] = new UsersEntity($formFields);
+        }
+		
+        return $this->render('pages/users/edit.html');
 	}
 
 	protected function storeAction()
 	{
+        $formData = $this->request->getParsedBody();
 		$user = new UsersEntity;
-		$user = $user->create($this->request->getParsedBody());
+		$user = $user->create();
 		if( !$user->isSuccess() ){
 			foreach ($user->getErrors() as $error) {
 				$this->flash->addMessage('errors', $error);
 			}
+            
+            $this->flash->addMessage('jsonFormData', json_encode($formData));
+            
 			return $this->response->withRedirect('/admin/users/create');
 		} else {
 			$this->flash->addMessage('success', 'users is created');
 			return $this->response->withRedirect('/admin/users/'.$user->id);
 		}
-		// if( $id )
-			// return $this->response->withRedirect('/admin/users');
-		// else
-			// return $this->response->withRedirect('/admin/users/create');
 	}
 
 	protected function updateAction()
@@ -56,6 +66,9 @@ class Users extends BaseAdminController
 			foreach ($user->getErrors() as $error) {
 				$this->flash->addMessage('errors', $error);
 			}
+            
+            $this->flash->addMessage('jsonFormData', json_encode($data));
+            
 			return $this->response->withRedirect('/admin/users/'.$user->id.'/edit');
 		} else {
 			$this->flash->addMessage('success', 'users is updated');

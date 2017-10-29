@@ -2,12 +2,12 @@
 
 namespace App\Controllers\Backend;
 
-use App\Controllers\BaseController;
+//use App\Controllers\BaseController;
 use App\Models\BaseModel;
-use Illuminate\Support\Collection;
 use App\Models\Users as UsersEntity;
+use Illuminate\Support\Collection;
 
-class Auth extends BaseController
+class Auth extends BaseAdminController
 {
 	protected function indexAction()
 	{
@@ -37,14 +37,14 @@ class Auth extends BaseController
 				if( $data && $data['u'] && $data['p'] && $data['e'] && $data['i'] && $data['e'] > time() ){
 					$user = UsersEntity::where('login', $data['u'])->where('id', $data['i'])->where('password', $data['p'])->get()->first();
 					if( $user && ($user->active || $user->id == 1 ) ){
-						$_SESSION['auth'] = new Collection([
+						$this->session['auth'] = new Collection([
 							'user.id' => $user->id,
 							'user.login' => $user->login,
 							'user.first_name' => $user->first_name,
 							'user.last_name' => $user->last_name,
 						]);
-						if( $_SESSION['auth']->has('last_request') )
-							return $this->response->withRedirect($_SESSION['auth']['last_request']);
+						if( $this->session['auth']->has('last_request') )
+							return $this->response->withRedirect($this->session['auth']['last_request']);
 
 						return $this->response->withRedirect('/admin/users');
 					} else {
@@ -54,9 +54,9 @@ class Auth extends BaseController
 			}
 		}
 
-		if( $_SESSION['auth'] && $_SESSION['auth']->has('user.id') ){
-			if( $_SESSION['auth']->has('last_request') )
-				return $this->response->withRedirect($_SESSION['auth']['last_request']);
+		if( $this->session['auth'] && $this->session['auth']->has('user.id') ){
+			if( $this->session['auth']->has('last_request') )
+				return $this->response->withRedirect($this->session['auth']['last_request']);
 
 			return $this->response->withRedirect('/admin/users');
 		}
@@ -68,7 +68,7 @@ class Auth extends BaseController
 		$user = UsersEntity::where('login', $data['login'])->get()->first();
 
 		if( $user && password_verify($data['password'], $user->password) && ($user->active || $user->id == 1 ) ){
-			$_SESSION['auth'] = new Collection([
+			$this->session['auth'] = new Collection([
 				'user.id' => $user->id,
 				'user.login' => $user->login,
 				'user.first_name' => $user->first_name,
@@ -95,8 +95,8 @@ class Auth extends BaseController
 				setcookie("authorize_hash", $codeAuthorizeString, time()+3600*24*35, '/');
 			}
 
-			if( $_SESSION['auth']->has('last_request') )
-				return $this->response->withRedirect($_SESSION['auth']['last_request']);
+			if( $this->session['auth']->has('last_request') )
+				return $this->response->withRedirect($this->session['auth']['last_request']);
 
 			return $this->response->withRedirect('/admin/users');
 		} else {
@@ -108,7 +108,7 @@ class Auth extends BaseController
 
 	protected function logoutAction()
 	{
-		unset($_SESSION['auth']);
+		unset($this->session['auth']);
 		setcookie("authorize_hash", "", time() - 3600, "/");
 		return $this->response->withRedirect('/admin/login');
 	}
