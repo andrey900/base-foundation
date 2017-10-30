@@ -1,0 +1,45 @@
+{% extends 'masterpage.html' %}
+
+{% block pageTitle %}{{ group.name | capitalize }}{% endblock %}
+{% block breadcrumbs %}<li><a href="/admin/groups">Groups</a></li>{% endblock %}
+{% block pageName %}{{ group.name | capitalize }}{% endblock %}
+
+{% block containerInPage %}
+<div class="col-xs-6">
+    <div class="white-box">
+        <h3 class="text-center">Group info</h3>
+        <div class="row">
+        	<div class="col-md-5 text-right"><b>Id</b></div>
+        	<div class="col-md-7 text-left">{{ group.id }}</div>
+        </div>
+        <div class="row">
+        	<div class="col-md-5 text-right"><b>Code</b></div>
+        	<div class="col-md-7 text-left">{{ group.code }}</div>
+        </div>
+        <div class="row">
+        	<div class="col-md-5 text-right"><b>Name</b></div>
+        	<div class="col-md-7 text-left">{{ group.name }}</div>
+        </div>
+	    <div class="row">
+	    	<div class="col-md-5 text-right"><b>Active</b></div>
+	    	<div class="col-md-7 text-left">{{ group.active }}</div>
+	    </div>
+	    <div class="row">
+	    	<div class="col-md-5 text-right"><b>Default</b></div>
+	    	<div class="col-md-7 text-left">{{ group.default }}</div>
+	    </div>
+	    <div class="row">
+	    	<div class="col-md-5 text-right"><b>Description</b></div>
+	    	<div class="col-md-7 text-left"><p>{{ group.description }}</p></div>
+	    </div>
+	    <br>
+			<form method="POST" action="/admin/groups/{{ group.id }}" class="text-center">
+			<input type="hidden" name="_method" value="DELETE">
+			<a href="/admin/groups/{{ group.id }}/edit" class="btn btn-primary"><i class="ti-pencil fa-fw"></i>Edit</a>
+		{% if group.id > 1 and not group.default %}
+			<button class="btn btn-danger" type="submit"><i class="ti-close fa-fw"></i>Delete</button>
+		{% endif %}
+			</form>
+    </div>
+</div>
+{% endblock %}

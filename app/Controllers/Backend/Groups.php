@@ -3,45 +3,45 @@
 namespace App\Controllers\Backend;
 
 use App\Models\BaseModel;
-use App\Models\Users as UsersEntity;
+use App\Models\Groups as GroupsEntity;
 
-class Users extends BaseAdminController
+class Groups extends BaseAdminController
 {
 	protected function indexAction()
 	{
-		$this->viewCollection['users'] = UsersEntity::all();
+		$this->viewCollection['groups'] = GroupsEntity::all();
 	}
 
 	protected function showAction()
 	{
-		$this->viewCollection['user'] = UsersEntity::find($this->request->getAttribute('id'));
+		$this->viewCollection['group'] = GroupsEntity::find($this->request->getAttribute('id'));
 	}
 
 	protected function editAction()
 	{
-		$this->viewCollection['user'] = UsersEntity::find($this->request->getAttribute('id'));
+		$this->viewCollection['group'] = GroupsEntity::find($this->request->getAttribute('id'));
         if( $formFields = $this->flash->getMessage('jsonFormData') ){
             $formFields = (array)json_decode($formFields[0]);
-            $this->viewCollection['user']->fill($formFields);
+            $this->viewCollection['group']->fill($formFields);
         }
 	}
 
 	protected function createAction()
 	{
-		$this->viewCollection['user'] = new UsersEntity;
+		$this->viewCollection['group'] = new GroupsEntity;
         
         if( $formFields = $this->flash->getMessage('jsonFormData') ){
             $formFields = (array)json_decode($formFields[0]);
-            $this->viewCollection['user'] = new UsersEntity($formFields);
+            $this->viewCollection['group'] = new GroupsEntity($formFields);
         }
 		
-        return $this->render('pages/users/edit.html');
+        return $this->render('pages/groups/edit.html');
 	}
 
 	protected function storeAction()
 	{
         $formData = $this->request->getParsedBody();
-		$user = new UsersEntity;
+		$user = new GroupsEntity;
 		$user = $user->create($formData);
 		if( !$user->isSuccess() ){
 			foreach ($user->getErrors() as $error) {
@@ -50,17 +50,17 @@ class Users extends BaseAdminController
             
             $this->flash->addMessage('jsonFormData', json_encode($formData));
             
-			return $this->response->withRedirect('/admin/users/create');
+			return $this->response->withRedirect('/admin/groups/create');
 		} else {
-			$this->flash->addMessage('success', 'users is created');
-			return $this->response->withRedirect('/admin/users/'.$user->id);
+			$this->flash->addMessage('success', 'group is created');
+			return $this->response->withRedirect('/admin/groups/'.$user->id);
 		}
 	}
 
 	protected function updateAction()
 	{
 		$data = $this->request->getParsedBody();
-		$user = UsersEntity::find($this->request->getAttribute('id'));
+		$user = GroupsEntity::find($this->request->getAttribute('id'));
 		$user->update($data);
 		if( !$user->isSuccess() ){
 			foreach ($user->getErrors() as $error) {
@@ -69,18 +69,18 @@ class Users extends BaseAdminController
             
             $this->flash->addMessage('jsonFormData', json_encode($data));
             
-			return $this->response->withRedirect('/admin/users/'.$user->id.'/edit');
+			return $this->response->withRedirect('/admin/groups/'.$user->id.'/edit');
 		} else {
-			$this->flash->addMessage('success', 'users is updated');
-			return $this->response->withRedirect('/admin/users/'.$user->id);
+			$this->flash->addMessage('success', 'group is updated');
+			return $this->response->withRedirect('/admin/groups/'.$user->id);
 		}
 	}
 
 	protected function destroyAction()
 	{
-		$user = UsersEntity::find($this->request->getAttribute('id'));
+		$user = GroupsEntity::find($this->request->getAttribute('id'));
 		$user->delete();
-		return $this->response->withRedirect('/admin/users');
+		return $this->response->withRedirect('/admin/groups');
 	}
 
 	protected function updelAction()

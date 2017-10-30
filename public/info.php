@@ -10,7 +10,13 @@ use Illuminate\Support\Str;
 // echo password_hash("admin", PASSWORD_BCRYPT).'<br>';
 echo "<pre><br>";
 
-$appKey = 'Bo-s5I,d4';
+$a = true;
+$d = true;
+var_dump(!($a && $d));
+var_dump(!(!$a && $d));
+var_dump(!(!$a && !$d));
+
+/*$appKey = 'Bo-s5I,d4';
 $login = 'admin';
 $password = '$2y$10$PIO0cZO6CMFFOwKGnbxH7euhn48RY/gU4vdCYZsNWl4kiUmI50AQ2';
 
@@ -18,7 +24,7 @@ $d = [
 	'u' => $login,
 	'p' => $password,
 	'e' => time()+3600*24*7
-];
+];*/
 
 // $strongHash = openssl_encrypt(json_encode($d), 'AES-128-ECB', $appKey);
 // $solt = md5($strongHash);

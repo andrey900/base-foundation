@@ -37,7 +37,9 @@
                       <ul role="menu" class="dropdown-menu">
                         <li><a href="/admin/users/{{ user.id }}">Show</a></li>
                         <li><a href="/admin/users/{{ user.id }}/edit">Edit</a></li>
+                        {%if user.id > 1 %}
                         <li><a href="/admin/users/{{ user.id }}/delete">Delete</a></li>
+                        {% endif %}
                         <li class="divider"></li>
                         <li><a href="#">Active</a></li>
                       </ul>

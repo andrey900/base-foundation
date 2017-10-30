@@ -1,0 +1,59 @@
+{% extends 'masterpage.html' %}
+
+{% block pageTitle %}
+    {% if user.id %}
+    Edit group: {{ user.name | capitalize }}
+    {% else %}
+    Create new group
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li><a href="/admin/groups">Groups</a></li>
+    {% if user.id %}<li><a href="/admin/groups/{{ group.id }}">{{ group.name | capitalize }}</a></li>{% endif %}
+{% endblock %}
+{% block pageName %}{% if group.id %}Edit{% else %}Create{% endif %}{% endblock %}
+
+{% block containerInPage %}
+<div class="col-xs-10">
+    <div class="white-box">
+
+        {% if group.id %}
+            <form action="/admin/groups/{{ group.id }}" method="POST" class="form-horizontal form-material">
+            <input type="hidden" name="_method" value="PUT">
+        {% else %}
+            <form action="/admin/groups" method="POST" class="form-horizontal form-material">
+        {% endif %}
+
+        <h3 class="text-center">{% if group.id %}Edit{% else %}Create{% endif %} Group</h3>
+        <div class="row form-group">
+            <label class="col-md-3 text-right">Code</label>
+            <div class="col-md-9 text-left"><input class="form-control form-control-line" type="text" name="code" value="{{ group.code }}" placeholder="Code"></div>
+        </div>
+        <div class="row form-group">
+            <label class="col-md-3 text-right">Name</label>
+            <div class="col-md-9 text-left"><input class="form-control form-control-line" type="text" name="name" value="{{ group.name }}" placeholder="Name"></div>
+        </div>
+        <div class="row form-group">
+            <label class="col-md-3 text-right" for="field-active">Active</label>
+            <div class="col-md-9 text-left">
+                <input type="hidden" name="active" value="0">
+                <input id="field-active" class="form-check-input" type="checkbox" name="active" value="1" {% if group.active or not group.id %}checked=""{% endif %}>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label class="col-md-3 text-right" for="field-verify">Default</label>
+            <div class="col-md-9 text-left">
+                <input type="hidden" name="default" value="{% if group.default %}1{% else %}0{% endif %}">
+                <input id="field-verify" class="form-check-input" type="checkbox" name="default" value="1" {% if group.default %}checked="" disabled=""{% endif %}>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label class="col-md-3 text-right">Admin comment</label>
+            <div class="col-md-9 text-left"><textarea name="admin_comment" class="form-control form-control-line" rows="5" placeholder="Comment">{{ group.description }}</textarea></div>
+        </div>
+<br>
+        <p class="text-center"><button class="btn btn-primary" type="submit" ><i class="ti-save fa-fw"></i>Save</button><a href="/admin/groups" class="btn btn-danger" ><i class="ti-close fa-fw"></i>Cancel</a></p>
+    </div>
+</div>
+{% endblock %}
