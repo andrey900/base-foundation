@@ -4,6 +4,7 @@ namespace App\Controllers\Backend;
 
 use App\Models\BaseModel;
 use App\Models\Users as UsersEntity;
+use App\Models\Groups as GroupsEntity;
 
 class Users extends BaseAdminController
 {
@@ -20,6 +21,10 @@ class Users extends BaseAdminController
 	protected function editAction()
 	{
 		$this->viewCollection['user'] = UsersEntity::find($this->request->getAttribute('id'));
+		$this->viewCollection['user_groups'] = $this->viewCollection['user']->groups->keyBy('id');
+		
+		$this->viewCollection['groups'] = GroupsEntity::allActive();
+
         if( $formFields = $this->flash->getMessage('jsonFormData') ){
             $formFields = (array)json_decode($formFields[0]);
             $this->viewCollection['user']->fill($formFields);
@@ -29,6 +34,7 @@ class Users extends BaseAdminController
 	protected function createAction()
 	{
 		$this->viewCollection['user'] = new UsersEntity;
+		$this->viewCollection['groups'] = GroupsEntity::allActive();
         
         if( $formFields = $this->flash->getMessage('jsonFormData') ){
             $formFields = (array)json_decode($formFields[0]);
@@ -52,6 +58,7 @@ class Users extends BaseAdminController
             
 			return $this->response->withRedirect('/admin/users/create');
 		} else {
+			$user->groups()->sync($formData['user_groups']);
 			$this->flash->addMessage('success', 'users is created');
 			return $this->response->withRedirect('/admin/users/'.$user->id);
 		}
@@ -71,6 +78,7 @@ class Users extends BaseAdminController
             
 			return $this->response->withRedirect('/admin/users/'.$user->id.'/edit');
 		} else {
+			$user->groups()->sync($data['user_groups']);
 			$this->flash->addMessage('success', 'users is updated');
 			return $this->response->withRedirect('/admin/users/'.$user->id);
 		}
@@ -79,6 +87,7 @@ class Users extends BaseAdminController
 	protected function destroyAction()
 	{
 		$user = UsersEntity::find($this->request->getAttribute('id'));
+		$user->groups()->detach(GroupsEntity::all()->keyBy('id')->keys());
 		$user->delete();
 		return $this->response->withRedirect('/admin/users');
 	}

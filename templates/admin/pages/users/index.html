@@ -28,8 +28,20 @@
 				<td>{{ user.email }}</td>
 				<td>{{ user.first_name }}</td>
 				<td>{{ user.last_name }}</td>
-				<td>{{ user.active }}</td>
-				<td>{{ user.verified }}</td>
+				<td>
+                {% if user.active %}
+                    <i class="fa fa-check text-success" aria-hidden="true"></i>
+                {% else %}
+                    <i class="fa fa-minus text-danger" aria-hidden="true"></i>
+                {% endif %}
+                </td>
+				<td>
+                {% if user.verified %}
+                    <i class="fa fa-check text-success" aria-hidden="true"></i>
+                {% else %}
+                    <i class="fa fa-minus text-danger" aria-hidden="true"></i>
+                {% endif %}
+                </td>
                 <td>{{ user.created_at }}</td>
 				<td>
                     <div class="btn-group">

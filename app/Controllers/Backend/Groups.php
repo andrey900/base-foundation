@@ -15,6 +15,7 @@ class Groups extends BaseAdminController
 	protected function showAction()
 	{
 		$this->viewCollection['group'] = GroupsEntity::find($this->request->getAttribute('id'));
+		$this->viewCollection['users'] = $this->viewCollection['group']->users;
 	}
 
 	protected function editAction()

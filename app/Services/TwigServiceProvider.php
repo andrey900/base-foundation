@@ -24,7 +24,7 @@ class TwigServiceProvider implements ServiceProviderInterface
 
 			$config = [
 		        'cache' => ($appConfig['twigUseCache']) ? CACHE_PATH.'twig'.DS : false,
-		        'twigDebug' => $appConfig['twigDebug'],
+		        'debug' => $appConfig['twigDebug'],
 		        'auto_reload' => $appConfig['twigAutoReload'],
 		        'file_extension' => 'html'
 		    ];
@@ -38,6 +38,8 @@ class TwigServiceProvider implements ServiceProviderInterface
 		    // Instantiate and add Slim specific extension
 		    $basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
 		    $view->addExtension(new TwigExtension($c['router'], $basePath));
+
+		    $view->addExtension(new \Twig_Extension_Debug());
 
 		    return $view;
 		};

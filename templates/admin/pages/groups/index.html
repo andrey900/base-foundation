@@ -25,8 +25,20 @@
 				<td><a href="/admin/groups/{{group.id}}">{{ group.code }}</a></td>
 				<td>{{ group.name }}</td>
 				<td>{{ group.description }}</td>
-				<td>{{ group.active }}</td>
-				<td>{{ group.default }}</td>
+				<td>
+                {% if group.active %}
+                    <i class="fa fa-check text-success" aria-hidden="true"></i>
+                {% else %}
+                    <i class="fa fa-minus text-danger" aria-hidden="true"></i>
+                {% endif %}
+                </td>
+				<td>
+                {% if group.default %}
+                    <i class="fa fa-check text-success" aria-hidden="true"></i>
+                {% else %}
+                    <i class="fa fa-minus text-danger" aria-hidden="true"></i>
+                {% endif %}
+                </td>
 				<td>
                     <div class="btn-group">
                       <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default dropdown-toggle waves-effect waves-light btn-xs" type="button">Actions<span class="caret"></span></button>

@@ -8,7 +8,7 @@
 .flash-messages{
     overflow-y: auto;
     float: left;
-    width: 63%;
+    width: 60%;
     height: 51px;
     overflow-x: unset;
 }

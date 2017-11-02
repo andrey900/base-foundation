@@ -15,6 +15,99 @@
 {% block pageName %}{% if user.id %}Edit{% else %}Create{% endif %}{% endblock %}
 
 {% block containerInPage %}
+<div class="white-box">
+    <h3 class="text-center">{% if user.id %}Edit{% else %}Create{% endif %} User</h3>
+    <hr>
+    <div class="vtabs">
+        <ul class="nav tabs-vertical">
+          <li class="tab active"><a data-toggle="tab" href="#home4" aria-expanded="true"> <span><i class="ti-home"></i></span> <span class="hidden-xs">Home</span> </a> </li>
+          <li class="tab"><a data-toggle="tab" href="#profile4" aria-expanded="false"> <span><i class="ti-user"></i></span> <span class="hidden-xs">Profile</span> </a> </li>
+        </ul>
+        {% if user.id %}
+        <form action="/admin/users/{{ user.id }}" method="POST" class="form-horizontal">
+            <input type="hidden" name="_method" value="PUT">
+        {% else %}
+        <form action="/admin/users" method="POST" class="form-horizontal">
+        {% endif %}
+            <div class="tab-content">
+              <div id="home4" class="tab-pane active">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Username</label>
+                    <div class="col-md-9">
+                        <input class="form-control" type="text" name="login" value="{{ user.login }}" placeholder="Username">
+                    </div>
+                </div>
+                <div class="form-group">
+                        <label class="col-md-3 control-label">Email</label>
+                        <div class="col-md-9"><input class="form-control" type="text" name="email" value="{{ user.email }}" placeholder="Email"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">First name</label>
+                        <div class="col-md-9"><input class="form-control" type="text" type="text" name="first_name" value="{{ user.first_name }}" placeholder="First name"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Last Name</label>
+                        <div class="col-md-9"><input class="form-control" type="text" name="last_name" value="{{ user.last_name }}" class="Last name"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="field-active">Active</label>
+                        <div class="col-md-9">
+                            <input type="hidden" name="active" value="0">
+                            <div class="checkbox checkbox-primary">
+                              <input id="field-active" name="active" value="1" type="checkbox" {% if user.active or not user.id %}checked=""{% endif %}>
+                              <label for="field-active"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="field-verify">Verify</label>
+                        <div class="col-md-9">
+                            <input type="hidden" name="verified" value="0">
+                            <div class="checkbox checkbox-primary">
+                              <input id="field-verify" name="verified" value="1" type="checkbox" {% if user.verified %}checked=""{% endif %}>
+                              <label for="field-verify"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Admin comment</label>
+                        <div class="col-md-9"><textarea name="admin_comment" class="form-control" rows="5" placeholder="Comment">{{ user.admin_comment }}</textarea></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Password</label>
+                        <div class="col-md-9"><input class="form-control" type="password" name="password1"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Confirm password</label>
+                        <div class="col-md-9"><input class="form-control" type="password" name="password2"></div>
+                    </div>
+              </div>
+              <div id="profile4" class="tab-pane">
+                <div class="form-group">
+                        <label class="col-md-3 control-label">Select groups</label>
+            <select class="select2 m-b-10 select2-multiple" multiple="multiple" data-placeholder="Choose groups" name="user_groups[]">
+                {% for group in groups %}
+                    {% if user.id %}
+                    <option value="{{ group.id }}" {% if group.id in user_groups | keys %}selected=""{% endif %}>{{ group.name }}</option>
+                    {% else %}
+                    <option value="{{ group.id }}" {% if group.default %}selected=""{% endif %}>{{ group.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+              </div>
+            </div>
+            <p class="text-center"><button class="btn btn-primary" type="submit" ><i class="ti-save fa-fw"></i>Save</button><a href="/admin/users" class="btn btn-danger" ><i class="ti-close fa-fw"></i>Cancel</a></p>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{#% block containerInPage %}
 <div class="col-xs-10">
     <div class="white-box">
 
@@ -72,4 +165,4 @@
         <p class="text-center"><button class="btn btn-primary" type="submit" ><i class="ti-save fa-fw"></i>Save</button><a href="/admin/users" class="btn btn-danger" ><i class="ti-close fa-fw"></i>Cancel</a></p>
     </div>
 </div>
-{% endblock %}
+{% endblock %#}

@@ -30,11 +30,23 @@
 	    </div>
 	    <div class="row">
 	    	<div class="col-md-5 text-right"><b>Active</b></div>
-	    	<div class="col-md-7 text-left">{{ user.active }}</div>
+	    	<div class="col-md-7 text-left">
+	    		{% if user.active %}
+                    <i class="fa fa-check text-success" aria-hidden="true"></i>
+                {% else %}
+                    <i class="fa fa-minus text-danger" aria-hidden="true"></i>
+                {% endif %}
+            </div>
 	    </div>
 	    <div class="row">
 	    	<div class="col-md-5 text-right"><b>Verify</b></div>
-	    	<div class="col-md-7 text-left">{{ user.verified }}</div>
+	    	<div class="col-md-7 text-left">
+			{% if user.verified %}
+                <i class="fa fa-check text-success" aria-hidden="true"></i>
+            {% else %}
+                <i class="fa fa-minus text-danger" aria-hidden="true"></i>
+            {% endif %}
+	    	</div>
 	    </div>
 	    <div class="row">
 	    	<div class="col-md-5 text-right"><b>Admin comment</b></div>

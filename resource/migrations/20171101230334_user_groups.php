@@ -28,18 +28,14 @@ class UserGroups extends AbstractMigration
      */
     public function change()
     {
-        $groups = $this->table('groups');
-        $groups->addColumn('code', 'string', ['limit' => 60])
-              ->addColumn('name', 'string', ['limit' => 120])
-              ->addColumn('description', 'string', ['limit' => 255])
-              ->addColumn('active', 'boolean', ['default' => true])
-              ->addColumn('default', 'boolean', ['default' => false])
-              ->addIndex(['code'], ['unique' => true])
-              ->save();
-    }
+        $user_group = $this->table('group_user');
+        
+        if ($user_group) {
+            $this->dropTable('group_user');
+        }
 
-    public function down()
-    {
-        $this->dropTable('groups');
+        $user_group->addColumn('group_id', 'integer', ['null' => false])
+                    ->addColumn('user_id', 'integer', ['null' => false])
+                    ->save();
     }
 }

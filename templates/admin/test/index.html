@@ -1,0 +1,90 @@
+{% extends 'masterpage.html' %}
+
+{% block pageTitle %}Test <p class="text-right create-btn"><a href="/admin/users/create" class="btn btn-primary">Test</a></p>{% endblock %}
+{% block pageName %}Test{% endblock %}
+
+{% block content %}
+<div class="white-box">
+  <h3>Vertical Tabs with icon</h3>
+  <hr>  
+    <div class="vtabs">
+        <ul class="nav tabs-vertical">
+          <li class="tab active"><a data-toggle="tab" href="#home4" aria-expanded="true"> <span><i class="ti-home"></i></span> <span class="hidden-xs">Home</span> </a> </li>
+          <li class="tab"><a data-toggle="tab" href="#profile4" aria-expanded="false"> <span><i class="ti-user"></i></span> <span class="hidden-xs">Profile</span> </a> </li>
+          <li class="tab"><a aria-expanded="false" data-toggle="tab" href="#messages4"><span><i class="ti-email"></i></span> <span class="hidden-xs">Messages</span> </a> </li>
+        </ul>
+        <div class="tab-content">
+          <div id="home4" class="tab-pane active">
+            <div class="col-md-6">
+              <h3>Best Clean Tab ever</h3>
+              <h4>you can use it with the small code</h4>
+            </div>
+            <div class="col-md-5 pull-right">
+              <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <div id="profile4" class="tab-pane">
+            <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p>
+          </div>
+          <div id="messages4" class="tab-pane">
+            
+        {% if user.id %}
+            <form action="/admin/users/{{ user.id }}" method="POST" class="form-horizontal form-material">
+            <input type="hidden" name="_method" value="PUT">
+        {% else %}
+            <form action="/admin/users" method="POST" class="form-horizontal form-material">
+        {% endif %}
+        <div class="form-group">
+            <label class="col-md-3 text-right">Username</label>
+            <div class="col-md-9 text-left"><input class="form-control form-control-line" type="text" name="login" value="{{ user.login }}" placeholder="Username"></div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 text-right">Email</label>
+            <div class="col-md-9 text-left"><input class="form-control form-control-line" type="text" name="email" value="{{ user.email }}" placeholder="Email"></div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 text-right">First name</label>
+            <div class="col-md-9 text-left"><input class="form-control form-control-line" type="text" type="text" name="first_name" value="{{ user.first_name }}" placeholder="First name"></div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 text-right">Last Name</label>
+            <div class="col-md-9 text-left"><input class="form-control form-control-line" type="text" name="last_name" value="{{ user.last_name }}" class="Last name"></div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 text-right" for="field-active">Active</label>
+            <div class="col-md-9 text-left">
+                <input type="hidden" name="active" value="0">
+                <input id="field-active" class="form-check-input" type="checkbox" name="active" value="1" {% if user.active %}checked=""{% endif %}>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 text-right" for="field-verify">Verify</label>
+            <div class="col-md-9 text-left">
+                <input type="hidden" name="verified" value="0">
+                <input id="field-verify" class="form-check-input" type="checkbox" name="verified" value="1" {% if user.verified %}checked=""{% endif %}>
+            </div>
+        </div>
+        <div class="checkbox checkbox-primary">
+                  <input id="checkbox0" type="checkbox">
+                  <label for="checkbox0"> Default </label>
+                </div>
+        <div class="form-group">
+            <label class="col-md-3 text-right">Admin comment</label>
+            <div class="col-md-9 text-left"><textarea name="admin_comment" class="form-control form-control-line" rows="5" placeholder="Comment">{{ user.admin_comment }}</textarea></div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 text-right">Password</label>
+            <div class="col-md-9 text-left"><input class="form-control form-control-line" type="password" name="password1"></div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 text-right">Confirm new password</label>
+            <div class="col-md-9 text-left"><input class="form-control form-control-line" type="password" name="password2"></div>
+        </div>
+<br>
+        <p class="text-center"><button class="btn btn-primary" type="submit" ><i class="ti-save fa-fw"></i>Save</button><a href="/admin/users" class="btn btn-danger" ><i class="ti-close fa-fw"></i>Cancel</a></p>
+          </div>
+        </div>
+      </div>
+</div>
+{% endblock %}

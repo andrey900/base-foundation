@@ -9,6 +9,7 @@ class Test extends BaseAdminController
 {
 	protected function indexAction()
 	{
-		return $this->render('mail/masterpage.html');
+		// return $this->render('mail/masterpage.html');
+		return $this->render('test/index.html');
 	}
 }

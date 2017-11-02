@@ -22,11 +22,23 @@
         </div>
 	    <div class="row">
 	    	<div class="col-md-5 text-right"><b>Active</b></div>
-	    	<div class="col-md-7 text-left">{{ group.active }}</div>
+	    	<div class="col-md-7 text-left">
+			{% if group.active %}
+                <i class="fa fa-check text-success" aria-hidden="true"></i>
+            {% else %}
+                <i class="fa fa-minus text-danger" aria-hidden="true"></i>
+            {% endif %}
+	    	</div>
 	    </div>
 	    <div class="row">
 	    	<div class="col-md-5 text-right"><b>Default</b></div>
-	    	<div class="col-md-7 text-left">{{ group.default }}</div>
+	    	<div class="col-md-7 text-left">
+			{% if group.default %}
+                <i class="fa fa-check text-success" aria-hidden="true"></i>
+            {% else %}
+                <i class="fa fa-minus text-danger" aria-hidden="true"></i>
+            {% endif %}
+	    	</div>
 	    </div>
 	    <div class="row">
 	    	<div class="col-md-5 text-right"><b>Description</b></div>
@@ -40,6 +52,54 @@
 			<button class="btn btn-danger" type="submit"><i class="ti-close fa-fw"></i>Delete</button>
 		{% endif %}
 			</form>
+    </div>
+</div>
+<div class="col-xs-6">
+    <div class="white-box">
+        <h3 class="text-center">Users in group</h3>
+        <table class="table">
+        	<thead>
+	            <tr>
+	                <th>#</th>
+	                <th>Login</th>
+	                <th>Active</th>
+	                <th>Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        	{% for user in users %}
+	        	<tr>
+	        		<td><a href="/admin/users/{{user.id}}">{{ user.id }}</a></td>
+	        		<td><a href="/admin/users/{{user.id}}">{{ user.login }}</a></td>
+	        		<td>
+	        			{% if user.active %}
+						<i class="fa fa-check text-success" aria-hidden="true"></i>
+						{% else %}
+						<i class="fa fa-minus text-danger" aria-hidden="true"></i>
+						{% endif %}
+	        		</td>
+	        		<td>
+	        			<div class="btn-group">
+                      <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default dropdown-toggle waves-effect waves-light btn-xs" type="button">Actions<span class="caret"></span></button>
+                      <ul role="menu" class="dropdown-menu">
+                        <li><a href="/admin/users/{{ user.id }}">Show</a></li>
+                        <li><a href="/admin/users/{{ user.id }}/edit">Edit</a></li>
+                        {%if user.id > 1 %}
+                        <li><a href="/admin/users/{{ user.id }}/delete">Delete</a></li>
+                        {% endif %}
+                        <li class="divider"></li>
+                        {%if user.active %}
+                        <li><a href="#">Deactive</a></li>
+                        {% else %}
+                        <li><a href="#">Active</a></li>
+                        {% endif %}
+                      </ul>
+                    </div>
+	        		</td>
+	        	</tr>
+	        	{% endfor %}
+	        </tbody>
+        </table>
     </div>
 </div>
 {% endblock %}

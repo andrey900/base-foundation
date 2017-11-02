@@ -71,7 +71,7 @@ class Groups extends BaseModel
 	{
 		// Brutal hack!!! from deactivate default value
 		if( !$this->default ){
-			$groups = Groups::where('default', 1)->get();
+			$groups = static::where('default', 1)->get();
 			if( $groups->isEmpty() ){
 				$this->default = 1;
 				$this->save();
@@ -80,7 +80,7 @@ class Groups extends BaseModel
 
 		// Brutal hack!!! from deactivate other default group
 		if( $this->default ){
-			$groups = Groups::where('default', 1)->where('id', '!=', $this->id)->get();
+			$groups = static::where('default', 1)->where('id', '!=', $this->id)->get();
 			if( $groups->isNotEmpty() ){
 				$groups->each(function($group){
 					$group->default = false;
@@ -89,4 +89,14 @@ class Groups extends BaseModel
 			}
 		}
 	}
+
+	public static function allActive()
+	{
+		return static::where('active', 1)->get();
+	}
+
+	public function users()
+    {
+    	return $this->belongsToMany('App\Models\Users', 'group_user', 'group_id', 'user_id');
+    }
 }

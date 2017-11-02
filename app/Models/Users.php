@@ -85,4 +85,9 @@ class Users extends BaseModel
 		$event = new UsersEvent($this);
 		Kernel::getInstance('container')->get('dispatcher')->dispatch(UsersEvent::AFTER_SAVE, $event);
 	}
+
+	public function groups()
+    {
+        return $this->belongsToMany('App\Models\Groups', 'group_user', 'user_id', 'group_id');
+    }
 }
