@@ -1,0 +1,13 @@
+privileges:
+  create: 1
+  read: 2
+  write: 4
+  delete: 8
+  read_own: 16
+  write_own: 32
+  delete_own: 64
+  access_route: 128
+admin_resources:
+  10: 'users'
+  20: 'groups'
+  30: 'permissions'

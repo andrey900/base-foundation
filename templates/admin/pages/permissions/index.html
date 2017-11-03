@@ -1,0 +1,67 @@
+{% extends 'masterpage.html' %}
+
+{% block pageTitle %}Permissions <p class="text-right create-btn"><a href="/admin/groups/create" class="btn btn-primary">Create Permission</a></p>{% endblock %}
+{% block pageName %}Permissions{% endblock %}
+
+{% block content %}
+{% if permissions %}
+<div class="table">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Groups</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+			{% for permission in permissions %}
+            <tr>
+				<td><a href="/admin/groups/{{group.id}}">{{ permission.id }}</a></td>
+				<td><a href="/admin/groups/{{group.id}}">{{ permission.code }}</a></td>
+				<td>{{ permission.name }}</td>
+				<td>{{ permission.description }}</td>
+				<td>
+                {% if permission.active %}
+                    <i class="fa fa-check text-success" aria-hidden="true"></i>
+                {% else %}
+                    <i class="fa fa-minus text-danger" aria-hidden="true"></i>
+                {% endif %}
+                </td>
+				<td>
+                {% if permission.default %}
+                    <i class="fa fa-check text-success" aria-hidden="true"></i>
+                {% else %}
+                    <i class="fa fa-minus text-danger" aria-hidden="true"></i>
+                {% endif %}
+                </td>
+				<td>
+                    <div class="btn-group">
+                      <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default dropdown-toggle waves-effect waves-light btn-xs" type="button">Actions<span class="caret"></span></button>
+                      <ul role="menu" class="dropdown-menu">
+                        <li><a href="/admin/groups/{{ group.id }}">Show</a></li>
+                        <li><a href="/admin/groups/{{ group.id }}/edit">Edit</a></li>
+                        {%if group.id > 1 and not group.default %}
+                        <li><a href="/admin/groups/{{ group.id }}/delete">Delete</a></li>
+                        {% endif %}
+                        <li class="divider"></li>
+                        {%if group.active %}
+                        <li><a href="#">Deactive</a></li>
+                        {% else %}
+                        <li><a href="#">Active</a></li>
+                        {% endif %}
+                        {%if not group.default %}
+                        <li><a href="#">Set as default</a></li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                </td>
+            </tr>
+			{% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}{% endblock %}

@@ -16,6 +16,7 @@ class RouteControllersServiceProvider implements ServiceProviderInterface
 		$container['Controllers\\Admin\\Auth'] = $container->get('controllerFactory')->instance('Auth', 'b');
 		$container['Controllers\\Admin\\Users'] = $container->get('controllerFactory')->instance('Users', 'b');
 		$container['Controllers\\Admin\\Groups'] = $container->get('controllerFactory')->instance('Groups', 'b');
+		$container['Controllers\\Admin\\Permissions'] = $container->get('controllerFactory')->instance('Permissions', 'b');
 		$container['Controllers\\Admin\\Test'] = $container->get('controllerFactory')->instance('Test', 'b');
 	}
 }
