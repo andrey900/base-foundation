@@ -136,3 +136,15 @@ class Permissions extends BaseAdminController
 		}
 	}
 }
+
+/*
+------------------- table --------------------
+id | group_id | module | permission |  route  |
+---|----------|--------|------------|---------|
+ 1 |		1 |  users | 		 31 | 		  |
+ 2 |		1 | groups | 		127 | 		  |
+ 3 |		1 |  perms | 		 31 | 		  |
+ 4 |		2 |  users | 		  4 | 		  |
+ 5 |		2 |   link | 		  4 | cabinet |
+
+*/

@@ -3,7 +3,8 @@
 namespace AppLib;
 
 use DebugBar\Bridge\Twig\TraceableTwigEnvironment as TraceableTwigEnvironmentDebugBar;
-use DebugBar\Bridge\Twig\TraceableTwigTemplate;
+// use DebugBar\Bridge\Twig\TraceableTwigTemplate;
+use AppLib\TraceableTwigTemplate;
 
 /**
 * 

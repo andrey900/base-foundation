@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Backend;
 
+use App\Ext\Kernel;
 use App\Models\BaseModel;
 use App\Models\Groups as GroupsEntity;
 
@@ -21,6 +22,10 @@ class Groups extends BaseAdminController
 	protected function editAction()
 	{
 		$this->viewCollection['group'] = GroupsEntity::find($this->request->getAttribute('id'));
+
+		$this->viewCollection['privileges'] = Kernel::getInstance('settings')['settings']['permissions']['privileges'];
+		$this->viewCollection['modules'] = Kernel::getInstance('settings')['settings']['permissions']['admin_resources'];
+
         if( $formFields = $this->flash->getMessage('jsonFormData') ){
             $formFields = (array)json_decode($formFields[0]);
             $this->viewCollection['group']->fill($formFields);
@@ -61,6 +66,7 @@ class Groups extends BaseAdminController
 	protected function updateAction()
 	{
 		$data = $this->request->getParsedBody();
+		p($data);die;
 		$user = GroupsEntity::find($this->request->getAttribute('id'));
 		$user->update($data);
 		if( !$user->isSuccess() ){
