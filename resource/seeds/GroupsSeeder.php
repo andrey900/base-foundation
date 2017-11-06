@@ -36,7 +36,7 @@ class GroupsSeeder extends AbstractSeed
             'default'       => true,
             'active'        => true
         ];
-        $users = $this->table('groups');
-        $users->insert($data)->save();
+        $entity = $this->table('groups');
+        $entity->insert($data)->save();
     }
 }

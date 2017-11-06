@@ -4,6 +4,7 @@ namespace App\Ext;
 
 use AppLib\Config\ConfigLoader;
 use AppLib\SessionMiddleware;
+use App\Models\Users;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Pimple\ServiceProviderInterface;
@@ -19,6 +20,7 @@ class Kernel
 	protected static $instance;
 
 	protected $app;
+	protected $user;
 	protected $settings;
 	protected $container;
 	protected $configLoader;
@@ -70,6 +72,17 @@ class Kernel
 		return static::$instance;
 	}
 
+	public static function instanceUser()
+	{
+		if( !static::instanceKernel()->user ){
+			$session = static::getInstance('container')->get('session');
+			if( $session['auth'] && $session['auth']['user.id'])
+				static::instanceKernel()->user = Users::find($session['auth']['user.id']);
+		}
+
+		return static::instanceKernel()->user;
+	}
+
 	public static function getInstance($type = false)
 	{
 		switch ($type) {
@@ -80,6 +93,8 @@ class Kernel
 				return static::instanceApp();
 			case 'container':
 				return static::instanceContainer();
+			case 'user':
+				return static::instanceUser();
 
 			default:
 				return static::instanceKernel();
@@ -151,8 +166,12 @@ class Kernel
     {
     	$container = static::getInstance('container');
     	$aliases->each(function ($item, $key) use ($container) {
-    		if( $container->has($key) )
-    			class_alias($container->get($key), $item, false);
+    		if( $container->has($key) ){
+    			if( strpos($item, '\\') !== 0 )
+    				$item = '\\'.$item;
+
+    			class_alias(get_class($container->get($key)), $item, false);
+    		}
     	});
     }
 }

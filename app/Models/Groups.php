@@ -99,4 +99,16 @@ class Groups extends BaseModel
     {
     	return $this->belongsToMany('App\Models\Users', 'group_user', 'group_id', 'user_id');
     }
+
+    public function permissions()
+    {
+    	return $this->hasMany('App\Models\Permissions', 'group_id');
+    }
+
+    public function delete()
+    {
+    	Kernel::getInstance('container')->get('db')->table('group_user')->where('group_id', $this->id)->delete();
+    	
+    	return parent::delete();
+    }
 }

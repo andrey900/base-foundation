@@ -3,8 +3,10 @@
 namespace App\Controllers\Backend;
 
 use App\Ext\Kernel;
+use Facade\Collection;
 use App\Models\BaseModel;
 use App\Models\Groups as GroupsEntity;
+use App\Models\Permissions;
 
 class Groups extends BaseAdminController
 {
@@ -25,6 +27,16 @@ class Groups extends BaseAdminController
 
 		$this->viewCollection['privileges'] = Kernel::getInstance('settings')['settings']['permissions']['privileges'];
 		$this->viewCollection['modules'] = Kernel::getInstance('settings')['settings']['permissions']['admin_resources'];
+
+		$permissionsForGroup = Permissions::groupById($this->request->getAttribute('id'));
+		$permissions = new Collection();
+		$ss = $permissionsForGroup->keyBy('module');
+		$ss->each(function($item, $module) use ($permissions){
+			if( strpos($module, 'model') )
+				$permissions[$module] = $item->getPermissionsByName();
+		});
+
+		$this->viewCollection['permissions'] = $permissions;
 
         if( $formFields = $this->flash->getMessage('jsonFormData') ){
             $formFields = (array)json_decode($formFields[0]);
@@ -66,8 +78,9 @@ class Groups extends BaseAdminController
 	protected function updateAction()
 	{
 		$data = $this->request->getParsedBody();
-		p($data);die;
-		$user = GroupsEntity::find($this->request->getAttribute('id'));
+		$groupId = $this->request->getAttribute('id');
+
+		$user = GroupsEntity::find($groupId);
 		$user->update($data);
 		if( !$user->isSuccess() ){
 			foreach ($user->getErrors() as $error) {
@@ -78,6 +91,30 @@ class Groups extends BaseAdminController
             
 			return $this->response->withRedirect('/admin/groups/'.$user->id.'/edit');
 		} else {
+			$s = new Collection($data['permissions']);
+			$perms = Permissions::groupById($groupId)->keyBy('module');
+			$s->each(function($item, $module)use($t, $perms, $groupId){
+				$r = new Collection($item);
+				$sum = $r->sum();
+				
+				$permissions = $perms[$module];
+				
+				if( !$permissions ){
+					$permissions = new Permissions;
+					$permissions->module = $module;
+					$permissions->group_id = $groupId;
+				}
+
+				if( $permissions->id && $sum == 0 ){
+					$permissions->delete();
+				}
+
+				if( $sum > 0 ){
+					$permissions->permissions = $sum;
+					$permissions->save();
+				}
+			});
+
 			$this->flash->addMessage('success', 'group is updated');
 			return $this->response->withRedirect('/admin/groups/'.$user->id);
 		}
@@ -85,8 +122,24 @@ class Groups extends BaseAdminController
 
 	protected function destroyAction()
 	{
-		$user = GroupsEntity::find($this->request->getAttribute('id'));
-		$user->delete();
+		$groupId = $this->request->getAttribute('id');
+		
+		$group = GroupsEntity::find($groupId);
+		$group->delete();
+		
+		if( !$group->isSuccess() ){
+			foreach ($group->getErrors() as $error) {
+				$this->flash->addMessage('errors', $error);
+			}
+		} else {
+        	$this->flash->addMessage('success', 'groups is deleted');
+		
+			$perms = Permissions::groupById($groupId);
+			$perms->each(function($item){
+				$item->delete();
+			});
+		}
+
 		return $this->response->withRedirect('/admin/groups');
 	}
 

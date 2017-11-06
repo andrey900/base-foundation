@@ -90,4 +90,9 @@ class Users extends BaseModel
     {
         return $this->belongsToMany('App\Models\Groups', 'group_user', 'user_id', 'group_id');
     }
+
+    public function isAdmin()
+    {
+    	return $this->groups->where('id', 1)->isNotEmpty();
+    }
 }

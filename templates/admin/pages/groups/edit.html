@@ -81,13 +81,13 @@
         {% for module in modules %}
         <tr class="text-center">
             <td>
-                <p><b>{{ module | capitalize }}</b></p>
+                <p><b>{{ module | trim('.model') | capitalize }}</b></p>
             </td>
             {% for key, item in privileges %}
                 <td>
                     <input type="hidden" name="permissions[{{ module }}][{{ key }}]" value="0">
                     <div class="checkbox checkbox-primary">
-                      <input id="field-{{ module }}-{{ key }}" name="permissions[{{ module }}][{{ key }}]" value="{{ item }}" type="checkbox">
+                      <input id="field-{{ module }}-{{ key }}" name="permissions[{{ module }}][{{ key }}]" value="{{ item }}" type="checkbox" {% if key in permissions[module] %}checked=""{% endif %}>
                       <label for="field-{{ module }}-{{ key }}"></label>
                     </div>
                 </td>

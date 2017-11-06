@@ -80,7 +80,12 @@ class Auth extends BaseAdminController
 
 	protected function storeAction()
 	{
-		$id = UsersEntity::create($this->request->getParsedBody());
+		if( $this->settings['app']['allowRegistered'] ){
+			$id = UsersEntity::create($this->request->getParsedBody());
+		} else {
+			return $this->response->withRedirect('/admin/login');
+		}
+
 		if( $id )
 			return $this->response->withRedirect('/admin/users');
 		else

@@ -22,7 +22,7 @@ class AuthEvent extends Event
 
     public function getGroups()
     {
-    	return $this->user->groups;
+    	return $this->user->groups->where('active', 1);
     }
 
     public function getUser()

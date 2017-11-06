@@ -8,6 +8,6 @@ privileges:
   delete_own: 64
   access_route: 128
 admin_resources:
-  10: 'users'
-  20: 'groups'
-  30: 'permissions'
+  10: 'users.model'
+  20: 'groups.model'
+  30: 'permissions.model'

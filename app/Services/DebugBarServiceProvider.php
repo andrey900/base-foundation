@@ -21,7 +21,12 @@ class DebugBarServiceProvider implements ServiceProviderInterface
 {
 	public function register(Container $container)
 	{
-		if( $container->get('settings')['app']['useDebugBar'] ){
+		$user = Kernel::getInstance('user');
+
+		if( $container->get('settings')['app']['useDebugBar'] && 
+			$user->id && 
+			$user->isAdmin()
+		){
 			$provider = new ServiceProvider([
 				'storage' => [
 					'enabled' => false

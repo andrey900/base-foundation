@@ -31,3 +31,6 @@ aliases:
   view: 'Facade\Twig'
   mailer: 'Facade\Mailer'
   collection: 'Facade\Collection'
+
+allowRegistered: false
+checkPermission: true
