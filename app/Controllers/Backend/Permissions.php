@@ -3,126 +3,112 @@
 namespace App\Controllers\Backend;
 
 use App\Ext\Kernel;
-use App\Ext\PermissionsForUser;
-use App\Models\BaseModel;
 use App\Models\Groups as GroupsEntity;
-use Zend\Permissions\Acl\Acl;
-use Zend\Permissions\Acl\Role\GenericRole as Role;
+use App\Models\Permissions as PermissionEntity;
+use Facade\Collection;
 
 class Permissions extends BaseAdminController
 {
 	protected function indexAction()
 	{
-		$r = Kernel::getInstance('container')->get('router')->getRoutes();
+		$permissions = PermissionEntity::all();
 
-		// p($this->session['auth']['user.groups']);
-
-/*		$p = Kernel::getInstance('settings')['settings']['permissions']['privileges'];
-		p($p);*/
-/*
-		$r = $p['read'] + $p['write'] + $p['create'];
-
-		$perms = [];
-		foreach ($p as $role => $value) {
-			if( $r & $value )
-				$perms[] = $role;
+		$permissions = $permissions->where('module', 'route.name');
+		$_permissions = $permissions->toArray();
+		foreach ($permissions as $k => $item) {
+			$_permissions[$k]['perms'] = $item->getPermissionsByName();
 		}
-		p($perms);
 
-		$s = new PermissionsForUser;
-		p($s->isAllowed('users', 'write'));
-		// p($s->getPermissionForResource('s'));
-		
-/*		$acl = new Acl();
-		$acl->addResource('blog');
-		$acl->addResource('users');
-		$acl->addRole('guest');
-		$editor = new Role('editor');
-		$acl->addRole($editor, 'guest');
-		$acl->allow('guest', null, 'read');
-		$acl->allow('editor', 'blog', ['read', 'write']);
-
-
-		p($acl->isAllowed('guest', 'blog', 'read'));
-		p($acl->isAllowed('guest', 'blog', 'write'));
-		p($acl->isAllowed('guest', 'users', 'read'));
-		p($acl->isAllowed('guest', 'users', 'write'));
-		p($acl->isAllowed('editor', 'blog', 'read'));
-		p($acl->isAllowed('editor', 'blog', 'write'));*/
-
-		// $this->viewCollection['permissions'] = $r;
+		$this->viewCollection['permissions'] = $_permissions;
+		$this->viewCollection['groups'] = GroupsEntity::all()->keyBy('id');
 	}
 
 	protected function showAction()
 	{
-		$this->viewCollection['group'] = GroupsEntity::find($this->request->getAttribute('id'));
-		$this->viewCollection['users'] = $this->viewCollection['group']->users;
+		throw new \Exception("Error Processing Request, Method show not allowed", 1);
+		
 	}
 
 	protected function editAction()
 	{
-		$this->viewCollection['group'] = GroupsEntity::find($this->request->getAttribute('id'));
+		$this->viewCollection['permission'] = PermissionEntity::find($this->request->getAttribute('id'));
+		$this->viewCollection['group'] = $this->viewCollection['permission']->group;
+		$this->viewCollection['allow'] = Kernel::getInstance('settings')['settings']['permissions']['privileges']['access_route'];
+
         if( $formFields = $this->flash->getMessage('jsonFormData') ){
             $formFields = (array)json_decode($formFields[0]);
-            $this->viewCollection['group']->fill($formFields);
+            $this->viewCollection['permission']->fill($formFields);
         }
 	}
 
 	protected function createAction()
 	{
-		$this->viewCollection['group'] = new GroupsEntity;
-        
-        if( $formFields = $this->flash->getMessage('jsonFormData') ){
-            $formFields = (array)json_decode($formFields[0]);
-            $this->viewCollection['group'] = new GroupsEntity($formFields);
-        }
-		
-        return $this->render('pages/groups/edit.html');
+		$r = Kernel::getInstance('container')->get('router')->getRoutes();
+
+		$routes = new Collection;
+
+		foreach ($r as $route) {
+			if( $route->getName() )
+				$routes->push($route->getName());
+		}
+
+		$this->viewCollection['routes'] = $routes;
+		$this->viewCollection['allow'] = Kernel::getInstance('settings')['settings']['permissions']['privileges']['access_route'];
+		$this->viewCollection['groups'] = GroupsEntity::allActive();
 	}
 
 	protected function storeAction()
 	{
         $formData = $this->request->getParsedBody();
-		$user = new GroupsEntity;
-		$user = $user->create($formData);
-		if( !$user->isSuccess() ){
-			foreach ($user->getErrors() as $error) {
-				$this->flash->addMessage('errors', $error);
-			}
-            
-            $this->flash->addMessage('jsonFormData', json_encode($formData));
-            
-			return $this->response->withRedirect('/admin/groups/create');
-		} else {
-			$this->flash->addMessage('success', 'group is created');
-			return $this->response->withRedirect('/admin/groups/'.$user->id);
+
+		foreach ($formData['groups'] as $groupId) {
+			$data = [
+				'group_id' => $groupId,
+				'module' => 'route.name',
+				'permissions' => $formData['active'],
+				'route' => $formData['route']
+			];
+			$permission = PermissionEntity::create($data);
+
+			if( !$permission->isSuccess() ){
+				foreach ($permission->getErrors() as $error) {
+					$this->flash->addMessage('errors', $error);
+				}
+	            
+	            $this->flash->addMessage('jsonFormData', json_encode($formData));
+
+	            return $this->response->withRedirect('/admin/permissions/create');
+	        }
 		}
+		
+		$this->flash->addMessage('success', 'group is created');
+		return $this->response->withRedirect('/admin/permissions');
 	}
 
 	protected function updateAction()
 	{
 		$data = $this->request->getParsedBody();
-		$user = GroupsEntity::find($this->request->getAttribute('id'));
-		$user->update($data);
-		if( !$user->isSuccess() ){
-			foreach ($user->getErrors() as $error) {
+		$permission = PermissionEntity::find($this->request->getAttribute('id'));
+		$permission->update($data);
+		if( !$permission->isSuccess() ){
+			foreach ($permission->getErrors() as $error) {
 				$this->flash->addMessage('errors', $error);
 			}
             
             $this->flash->addMessage('jsonFormData', json_encode($data));
             
-			return $this->response->withRedirect('/admin/groups/'.$user->id.'/edit');
+			return $this->response->withRedirect('/admin/permissions/'.$permission->id.'/edit');
 		} else {
-			$this->flash->addMessage('success', 'group is updated');
-			return $this->response->withRedirect('/admin/groups/'.$user->id);
+			$this->flash->addMessage('success', 'permission is updated');
+			return $this->response->withRedirect('/admin/permissions');
 		}
 	}
 
 	protected function destroyAction()
 	{
-		$user = GroupsEntity::find($this->request->getAttribute('id'));
-		$user->delete();
-		return $this->response->withRedirect('/admin/groups');
+		PermissionEntity::destroy($this->request->getAttribute('id'));
+		$this->flash->addMessage('success', 'permission is deleted');
+		return $this->response->withRedirect('/admin/permissions');
 	}
 
 	protected function updelAction()
@@ -136,15 +122,3 @@ class Permissions extends BaseAdminController
 		}
 	}
 }
-
-/*
-------------------- table --------------------
-id | group_id | module | permission |  route  |
----|----------|--------|------------|---------|
- 1 |		1 |  users | 		 31 | 		  |
- 2 |		1 | groups | 		127 | 		  |
- 3 |		1 |  perms | 		 31 | 		  |
- 4 |		2 |  users | 		  4 | 		  |
- 5 |		2 |   link | 		  4 | cabinet |
-
-*/

@@ -23,17 +23,17 @@ class GroupsSeeder extends AbstractSeed
             'active'        => true
         ];
         $data[] = [
-            'code'          => 'registered',
-            'name'          => 'Registered users',
-            'description'   => "All registered and authorized users",
-            'default'       => false,
-            'active'        => true
-        ];
-        $data[] = [
             'code'          => 'guest',
             'name'          => 'All other users',
             'description'   => "All users, this defaults groups",
             'default'       => true,
+            'active'        => true
+        ];
+        $data[] = [
+            'code'          => 'registered',
+            'name'          => 'Registered users',
+            'description'   => "All registered and authorized users",
+            'default'       => false,
             'active'        => true
         ];
         $entity = $this->table('groups');

@@ -95,6 +95,11 @@ class Groups extends BaseModel
 		return static::where('active', 1)->get();
 	}
 
+	public static function default()
+	{
+		return static::where('default', 1)->get();
+	}
+
 	public function users()
     {
     	return $this->belongsToMany('App\Models\Users', 'group_user', 'group_id', 'user_id');

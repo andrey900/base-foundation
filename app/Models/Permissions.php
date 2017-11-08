@@ -14,7 +14,36 @@ class Permissions extends BaseModel
 {
 	public $timestamps = false;
 
+    protected $rules = [];
+
 	protected $table = 'permissions';
+
+    protected $fillable = ['group_id', 'module', 'permissions', 'route'];
+
+    protected $ruleMessages = [
+        'permission_route_exists' => 'Permission for route exist, please input other route',
+    ];
+
+    protected function extRules()
+    {
+        $this->rules['route']['permission_route_exists('.$this->group_id.','.$this->module.','.$this->route.','.$this->id.')'] = function($input, $groupId, $module, $route = '', $id = ''){
+                if( $module != 'route.name' )
+                    return true;
+
+                if( !$route )
+                    return true;
+
+                $perms = \App\Models\Permissions::where('group_id', $groupId)->where('module', $module)->where('route', $route);
+
+                if( $id )
+                    $perms->where('id', '!=', $id);
+
+                if ($perms->count() > 0)
+                    return false;
+
+                return true;
+            };
+    }
 
 	public static function groupById($groupId)
 	{

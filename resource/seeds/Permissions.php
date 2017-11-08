@@ -16,35 +16,28 @@ class Permissions extends AbstractSeed
     public function run()
     {
         $data[] = [
-            'group_id'    => 1,
-            'module'      => 'users.model',
-            'permissions' => 255,
-        ];
-        $data[] = [
-            'group_id'    => 1,
-            'module'      => 'groups.model',
-            'permissions' => 255,
-        ];
-        $data[] = [
-            'group_id'    => 1,
-            'module'      => 'permissions.route.model',
-            'permissions' => 255,
-        ];
-        $data[] = [
-            'group_id'    => 1,
-            'module'      => 'route.url',
+            'group_id'    => 2,
+            'module'      => 'route.name',
             'permissions' => 128,
-            'access_route'=> '^/admin/*'
+            'route'       => 'page.home'
         ];
         $data[] = [
             'group_id'    => 2,
-            'module'      => 'users.model',
-            'permissions' => 44,
+            'module'      => 'route.name',
+            'permissions' => 128,
+            'route'       => 'adminpanel.login'
         ];
         $data[] = [
             'group_id'    => 2,
-            'module'      => 'groups.model',
-            'permissions' => 2,
+            'module'      => 'route.name',
+            'permissions' => 128,
+            'route'       => 'adminpanel.signin'
+        ];
+        $data[] = [
+            'group_id'    => 2,
+            'module'      => 'route.name',
+            'permissions' => 128,
+            'route'       => 'adminpanel.logout'
         ];
 
         $entity = $this->table('permissions');

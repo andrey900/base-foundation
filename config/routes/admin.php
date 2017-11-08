@@ -32,10 +32,10 @@ $app->group('/admin', function(){
     $this->get('/permissions/{id:[0-9]+}/delete', \Controllers\Admin\Permissions::class.':destroyAction')->setName('admin.permissions.destroy');
 })->add( new App\Middleware\AuthMiddleware() );
 
-$app->get('/admin/login', \Controllers\Admin\Auth::class.':indexAction');
-$app->post('/admin/login', \Controllers\Admin\Auth::class.':loginAction');
-$app->get('/admin/logout', \Controllers\Admin\Auth::class.':logoutAction');
-$app->get('/admin/register', \Controllers\Admin\Auth::class.':createAction');
-$app->post('/admin/signup', \Controllers\Admin\Auth::class.':storeAction');
+$app->get('/admin/login', \Controllers\Admin\Auth::class.':indexAction')->setName('adminpanel.login');
+$app->post('/admin/login', \Controllers\Admin\Auth::class.':loginAction')->setName('adminpanel.signin');
+$app->get('/admin/logout', \Controllers\Admin\Auth::class.':logoutAction')->setName('adminpanel.logout');
+$app->get('/admin/register', \Controllers\Admin\Auth::class.':createAction')->setName('adminpanel.register');
+$app->post('/admin/signup', \Controllers\Admin\Auth::class.':storeAction')->setName('adminpanel.signup');
 
-$app->get('/admin/test', \Controllers\Admin\Test::class.':indexAction');
+$app->get('/admin/test', \Controllers\Admin\Test::class.':indexAction')->setName('admin.test')->add( new App\Middleware\AuthMiddleware() );

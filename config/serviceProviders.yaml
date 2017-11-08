@@ -11,3 +11,4 @@
 100: '\App\Services\DebugBarServiceProvider'
 110: '\App\Services\RouteControllersServiceProvider'
 120: '\App\Services\CollectionServiceProvider'
+130: '\App\Services\PermissionServiceProvider'
